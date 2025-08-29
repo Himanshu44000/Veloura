@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Veloura</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .font-inter {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .premium-gradient {
+            background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 50%, #1a1a1a 100%);
+        }
+
+        .gold-gradient {
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #b8860b 100%);
+        }
+
+        .cream-bg {
+            background: linear-gradient(135deg, #faf7f2 0%, #f5f1ea 50%, #f0ebe3 100%);
+        }
+
+        .cart-item {
+            transition: all 0.3s ease;
+        }
+
+        .cart-item:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .quantity-btn {
+            background: #f9fafb;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #374151;
+        }
+
+        .quantity-btn:hover {
+            background: #e5e7eb;
+        }
+
+        .quantity-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .quantity-display {
+            padding: 8px 16px;
+            border-left: 1px solid #d1d5db;
+            border-right: 1px solid #d1d5db;
+            background: white;
+            min-width: 60px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .stock-status {
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .in-stock {
+            color: #059669;
+        }
+
+        .out-of-stock {
+            color: #dc2626;
+        }
+
+        .cart-summary {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 2px solid #e2e8f0;
+        }
+    </style>
+</head>
+
+<body class="cream-bg font-inter min-h-screen">
+    <!-- Navigation Bar (same as index.ejs) -->
+    <nav class="premium-gradient shadow-2xl sticky top-0 z-50 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo - Left Side -->
+                <div class="flex-shrink-0">
+                    <a href="/" class="text-3xl font-bold font-playfair">
+                        <span class="text-white">VEL</span><span class="text-yellow-400">OURA</span>
+                    </a>
+                </div>
+
+                <!-- Navigation Links - Right Side -->
+                <div class="flex items-center space-x-4">
+                    <a href="/" class="text-white hover:text-yellow-400 transition-all duration-300 group" title="Home">
+                        <div class="bg-gray-700 group-hover:bg-green-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-home text-lg"></i>
+                        </div>
+                    </a>
+                    <a href="/shop" class="text-white hover:text-yellow-400 transition-all duration-300 group"
+                        title="Shop">
+                        <div class="bg-gray-700 group-hover:bg-blue-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-store text-lg"></i>
+                        </div>
+                    </a>
+                    <a href="/wishlist" class="text-white hover:text-red-400 transition-all duration-300 group"
+                        title="Wishlist">
+                        <div class="bg-gray-700 group-hover:bg-red-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-heart text-lg"></i>
+                        </div>
+                    </a>
+                    <a href="/cart" class="text-white hover:text-yellow-400 transition-all duration-300 group"
+                        title="Cart">
+                        <div
+                            class="bg-yellow-600 group-hover:bg-yellow-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-shopping-bag text-lg text-black"></i>
+                        </div>
+                    </a>
+                    <div class="relative group">
+                        <button class="flex items-center text-white hover:text-yellow-400 transition-all duration-300">
+                            <div class="bg-green-600 hover:bg-green-500 p-3 rounded-full transition-all duration-300">
+                                <i class="fas fa-user text-lg"></i>
+                            </div>
+                        </button>
+
+                        <div
+                            class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-2">
+                                <a href="/user/profile"
+                                    class="block px-4 py-2 text-gray-800 hover:bg-yellow-50 transition-colors">
+                                    <i class="fas fa-user-circle mr-2 text-yellow-600"></i>My Profile
+                                </a>
+                                <a href="/users/logout"
+                                    class="block px-4 py-2 text-red-600 hover:bg-red-50 transition-colors">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-12">
+            <h1 class="text-4xl font-bold font-playfair text-gray-900 mb-4">Shopping Cart</h1>
+            <nav class="text-sm text-gray-600">
+                <a href="/" class="hover:text-yellow-600">Home</a>
+                <span class="mx-2">/</span>
+                <span class="text-gray-900">Shopping Cart</span>
+            </nav>
+        </div>
+
+        <!-- Flash Messages -->
+        <% if (error && error.length> 0) { %>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg mb-8">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-triangle mr-3"></i>
+                    <span>
+                        <%= error %>
+                    </span>
+                </div>
+            </div>
+            <% } %>
+
+                <% if (success && success.length> 0) { %>
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-6 py-4 rounded-lg mb-8">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle mr-3"></i>
+                            <span>
+                                <%= success %>
+                            </span>
+                        </div>
+                    </div>
+                    <% } %>
+
+                        <% if (user.cart && user.cart.length> 0) { %>
+                            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                                <!-- Cart Items -->
+                                <div class="lg:col-span-2">
+                                    <div class="bg-white rounded-2xl shadow-lg p-8">
+                                        <h2 class="text-2xl font-semibold font-playfair text-gray-900 mb-8">Cart Items
+                                        </h2>
+
+                                        <div class="space-y-6">
+                                            <% user.cart.forEach(item=> { %>
+                                                <% if (item.product) { %>
+                                                    <div
+                                                        class="cart-item bg-gray-50 rounded-xl p-6 border border-gray-200">
+                                                        <div class="flex items-start space-x-6">
+                                                            <!-- Product Image -->
+                                                            <div class="flex-shrink-0">
+                                                                <div
+                                                                    class="w-24 h-24 bg-gray-200 rounded-lg overflow-hidden">
+                                                                    <% if (item.product.image) { %>
+                                                                        <img src="data:image/jpeg;base64,<%= item.product.image.toString('base64') %>"
+                                                                            alt="<%= item.product.name %>"
+                                                                            class="w-full h-full object-cover">
+                                                                        <% } else { %>
+                                                                            <div
+                                                                                class="w-full h-full flex items-center justify-center premium-gradient">
+                                                                                <i
+                                                                                    class="fas fa-image text-2xl text-yellow-400"></i>
+                                                                            </div>
+                                                                            <% } %>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Product Details -->
+                                                            <div class="flex-1 min-w-0">
+                                                                <h3
+                                                                    class="text-lg font-semibold font-playfair text-gray-900 mb-2">
+                                                                    <%= item.product.name %>
+                                                                </h3>
+
+                                                                <p class="text-sm text-gray-600 mb-3 capitalize">
+                                                                    Category: <%= item.product.category %>
+                                                                </p>
+
+                                                                <!-- Stock Status -->
+                                                                <div class="mb-4">
+                                                                    <% if (item.product.stock> 0) { %>
+                                                                        <span class="stock-status in-stock">
+                                                                            <i class="fas fa-check-circle mr-1"></i>In
+                                                                            Stock (<%= item.product.stock %> available)
+                                                                        </span>
+                                                                        <% } else { %>
+                                                                            <span class="stock-status out-of-stock">
+                                                                                <i
+                                                                                    class="fas fa-times-circle mr-1"></i>Out
+                                                                                of Stock
+                                                                            </span>
+                                                                            <% } %>
+                                                                </div>
+
+                                                                <!-- Price -->
+                                                                <div class="mb-4">
+                                                                    <span class="text-2xl font-bold text-gray-900">
+                                                                        ₹<%= (item.product.price -
+                                                                            (item.product.discount || 0)) *
+                                                                            item.quantity %>
+                                                                    </span>
+                                                                    <span class="text-sm text-gray-500 ml-2">
+                                                                        (₹<%= item.product.price -
+                                                                            (item.product.discount || 0) %> each)
+                                                                    </span>
+                                                                    <% if (item.product.discount> 0) { %>
+                                                                        <div class="text-sm text-gray-500">
+                                                                            <span class="line-through">₹<%=
+                                                                                    item.product.price %></span>
+                                                                            <span class="text-red-600 ml-2">
+                                                                                <%= Math.round((item.product.discount /
+                                                                                    item.product.price) * 100) %>% off
+                                                                            </span>
+                                                                        </div>
+                                                                        <% } %>
+                                                                </div>
+
+                                                                <!-- Quantity Controls -->
+                                                                <div class="flex items-center justify-between">
+                                                                    <div class="flex items-center space-x-4">
+                                                                        <span
+                                                                            class="text-sm text-gray-700 font-medium">Quantity:</span>
+
+                                                                        <% if (item.product.stock> 0) { %>
+                                                                            <div class="quantity-controls">
+                                                                                <form action="/cart/update"
+                                                                                    method="POST"
+                                                                                    style="display: inline;">
+                                                                                    <input type="hidden"
+                                                                                        name="productId"
+                                                                                        value="<%= item.product._id %>">
+                                                                                    <input type="hidden" name="action"
+                                                                                        value="decrease">
+                                                                                    <button type="submit"
+                                                                                        class="quantity-btn"
+                                                                                        <%=item.quantity <=1
+                                                                                        ? 'disabled' : '' %>>
+                                                                                        <i class="fas fa-minus"></i>
+                                                                                    </button>
+                                                                                </form>
+
+                                                                                <div class="quantity-display">
+                                                                                    <%= item.quantity %>
+                                                                                </div>
+
+                                                                                <form action="/cart/update"
+                                                                                    method="POST"
+                                                                                    style="display: inline;">
+                                                                                    <input type="hidden"
+                                                                                        name="productId"
+                                                                                        value="<%= item.product._id %>">
+                                                                                    <input type="hidden" name="action"
+                                                                                        value="increase">
+                                                                                    <button type="submit"
+                                                                                        class="quantity-btn"
+                                                                                        <%=item.quantity>=
+                                                                                        item.product.stock ? 'disabled'
+                                                                                        : '' %>>
+                                                                                        <i class="fas fa-plus"></i>
+                                                                                    </button>
+                                                                                </form>
+                                                                            </div>
+                                                                            <% } else { %>
+                                                                                <div
+                                                                                    class="quantity-controls opacity-50">
+                                                                                    <button class="quantity-btn"
+                                                                                        disabled>
+                                                                                        <i class="fas fa-minus"></i>
+                                                                                    </button>
+                                                                                    <div class="quantity-display">
+                                                                                        <%= item.quantity %>
+                                                                                    </div>
+                                                                                    <button class="quantity-btn"
+                                                                                        disabled>
+                                                                                        <i class="fas fa-plus"></i>
+                                                                                    </button>
+                                                                                </div>
+                                                                                <% } %>
+                                                                    </div>
+
+                                                                    <!-- Delete Button -->
+                                                                    <a href="/cart/remove/<%= item.product._id %>"
+                                                                        onclick="return confirm('Are you sure you want to remove this item from your cart?')"
+                                                                        class="text-red-600 hover:text-red-800 font-medium transition-colors duration-200">
+                                                                        <i class="fas fa-trash mr-1"></i>Delete
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <% } %>
+                                                        <% }) %>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Cart Summary -->
+                                <div class="lg:col-span-1">
+                                    <div class="cart-summary rounded-2xl p-8 shadow-lg sticky top-24">
+                                        <h3 class="text-2xl font-semibold font-playfair text-gray-900 mb-8">Order
+                                            Summary</h3>
+
+                                        <!-- Subtotal -->
+                                        <div class="space-y-4 mb-8">
+                                            <div class="flex justify-between items-center text-lg">
+                                                <span class="text-gray-700">
+                                                    Subtotal (<%= totalItems %>
+                                                        <%= totalItems===1 ? 'item' : 'items' %>):
+                                                </span>
+                                                <span class="font-bold text-gray-900">₹<%= subtotal %></span>
+                                            </div>
+
+                                            <div class="border-t border-gray-300 pt-4">
+                                                <div class="flex justify-between items-center text-sm text-gray-600">
+                                                    <span>Shipping:</span>
+                                                    <span class="text-green-600 font-medium">FREE</span>
+                                                </div>
+                                                <div
+                                                    class="flex justify-between items-center text-sm text-gray-600 mt-2">
+                                                    <span>Tax:</span>
+                                                    <span>Calculated at checkout</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="border-t border-gray-300 pt-4">
+                                                <div class="flex justify-between items-center text-xl font-bold">
+                                                    <span class="text-gray-900">Total:</span>
+                                                    <span class="text-gray-900">₹<%= subtotal %></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Proceed to Buy Button -->
+                                        <% let hasOutOfStockItems=false; user.cart.forEach(item=> {
+                                            if (item.product && item.product.stock <= 0) { hasOutOfStockItems=true; }
+                                                }); %>
+
+                                                <% if (hasOutOfStockItems) { %>
+                                                    <div class="mb-4 p-4 bg-red-100 border border-red-400 rounded-lg">
+                                                        <p class="text-red-700 text-sm">
+                                                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                                                            Some items in your cart are out of stock. Please remove them
+                                                            to continue.
+                                                        </p>
+                                                    </div>
+                                                    <button disabled
+                                                        class="w-full bg-gray-400 text-white py-4 px-6 rounded-xl text-lg font-semibold cursor-not-allowed">
+                                                        <i class="fas fa-lock mr-2"></i>Cannot Proceed - Out of Stock
+                                                        Items
+                                                    </button>
+                                                    <% } else { %>
+                                                        <a href="/checkout"
+                                                            class="w-full gold-gradient text-black px-8 py-4 rounded-xl font-bold text-lg hover:scale-105 transition-transform duration-300 shadow-xl text-center block">
+                                                            <i class="fas fa-credit-card mr-2"></i>
+                                                            Proceed to Checkout
+                                                        </a>
+
+                                                        <% } %>
+
+                                                            <div class="mt-6 text-center">
+                                                                <a href="/shop"
+                                                                    class="text-yellow-600 hover:text-yellow-700 font-medium">
+                                                                    <i class="fas fa-arrow-left mr-2"></i>Continue
+                                                                    Shopping
+                                                                </a>
+                                                            </div>
+
+                                                            <!-- Security Features -->
+                                                            <div class="mt-8 pt-6 border-t border-gray-300">
+                                                                <div class="space-y-3 text-sm text-gray-600">
+                                                                    <div class="flex items-center">
+                                                                        <i
+                                                                            class="fas fa-shield-alt text-green-600 mr-2"></i>
+                                                                        <span>Secure checkout with SSL encryption</span>
+                                                                    </div>
+                                                                    <div class="flex items-center">
+                                                                        <i
+                                                                            class="fas fa-undo-alt text-green-600 mr-2"></i>
+                                                                        <span>30-day money-back guarantee</span>
+                                                                    </div>
+                                                                    <div class="flex items-center">
+                                                                        <i
+                                                                            class="fas fa-shipping-fast text-green-600 mr-2"></i>
+                                                                        <span>Free shipping on orders above ₹5000</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } else { %>
+                                <!-- Empty Cart -->
+                                <div class="text-center py-16">
+                                    <div class="bg-white rounded-2xl shadow-lg p-12 max-w-lg mx-auto">
+                                        <div class="mb-8">
+                                            <i class="fas fa-shopping-cart text-8xl text-gray-300"></i>
+                                        </div>
+                                        <h2 class="text-3xl font-semibold font-playfair text-gray-900 mb-4">Your cart is
+                                            empty</h2>
+                                        <p class="text-gray-600 mb-8 text-lg">
+                                            Looks like you haven't added any items to your cart yet.
+                                            Start shopping to discover our beautiful jewelry collection!
+                                        </p>
+                                        <a href="/shop"
+                                            class="gold-gradient text-black px-8 py-4 rounded-xl font-semibold hover:scale-105 transition-transform duration-300 shadow-lg inline-block">
+                                            <i class="fas fa-store mr-2"></i>Start Shopping
+                                        </a>
+                                    </div>
+                                </div>
+                                <% } %>
+    </div>
+
+    <!-- Footer -->
+    <footer class="premium-gradient text-white py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-6">
+                        <h3 class="text-3xl font-bold font-playfair">
+                            <span class="text-white">VEL</span><span class="text-yellow-400">OURA</span>
+                        </h3>
+                    </div>
+                    <p class="text-gray-300 mb-6 text-lg leading-relaxed max-w-md">
+                        Your trusted partner for luxury jewelry. We craft memories, one exquisite piece at a time,
+                        with dedication to quality and timeless elegance.
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-pinterest"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-yellow-400">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="/shop" class="text-gray-300 hover:text-white transition-colors duration-300">Shop
+                                All</a></li>
+                        <li><a href="/shop?category=chain"
+                                class="text-gray-300 hover:text-white transition-colors duration-300">Premium Chains</a>
+                        </li>
+                        <li><a href="/shop?category=ring"
+                                class="text-gray-300 hover:text-white transition-colors duration-300">Elegant Rings</a>
+                        </li>
+                        <li><a href="/shop?category=bracelet"
+                                class="text-gray-300 hover:text-white transition-colors duration-300">Stunning
+                                Bracelets</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Gift
+                                Cards</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-yellow-400">Customer Care</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Contact
+                                Us</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Shipping &
+                                Returns</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Size
+                                Guide</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Care
+                                Instructions</a></li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-white transition-colors duration-300">Warranty</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 mb-4 md:mb-0">
+                        © 2025 Veloura. All rights reserved. | Crafted with ♥ for jewelry enthusiasts worldwide
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#"
+                            class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Privacy
+                            Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Terms
+                            of Service</a>
+                        <a href="#"
+                            class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Licensing</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auto-hide flash messages -->
+    <script>
+        setTimeout(() => {
+            const flashMessages = document.querySelectorAll('[class*="bg-red-100"], [class*="bg-green-100"]');
+            flashMessages.forEach(message => {
+                message.style.transition = 'opacity 0.5s ease';
+                message.style.opacity = '0';
+                setTimeout(() => {
+                    if (message.parentNode) {
+                        message.parentNode.removeChild(message);
+                    }
+                }, 500);
+            });
+        }, 5000);
+    </script>
+</body>
+
+</html>

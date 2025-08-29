@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Veloura Luxury Jewelry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        
+        .premium-gradient {
+            background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 50%, #1a1a1a 100%);
+        }
+        
+        .gold-gradient {
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #b8860b 100%);
+        }
+
+        .cream-bg {
+            background: linear-gradient(135deg, #faf7f2 0%, #f5f1ea 50%, #f0ebe3 100%);
+        }
+
+        /* Dashboard cards styling */
+        .dashboard-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-color: #fbbf24;
+        }
+
+        /* Notification badge styling */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444 !important;
+            color: white !important;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .notification-badge.hidden {
+            display: none !important;
+        }
+
+        /* Stats counter styling */
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #b8860b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Profile avatar styling */
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #b8860b 100%);
+            border: 4px solid white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Fixed profile card to handle long text */
+        .profile-card {
+            min-height: auto;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .profile-email {
+            word-break: break-all;
+            max-width: 100%;
+            display: block;
+        }
+
+        .profile-name {
+            word-wrap: break-word;
+            max-width: 100%;
+            display: block;
+        }
+
+        /* Order status badges */
+        .status-delivered { @apply text-green-600 bg-green-100; }
+        .status-shipped { @apply text-blue-600 bg-blue-100; }
+        .status-processing { @apply text-yellow-600 bg-yellow-100; }
+        .status-cancelled { @apply text-red-600 bg-red-100; }
+    </style>
+</head>
+<body class="cream-bg font-inter min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="premium-gradient shadow-2xl sticky top-0 z-50 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo - Left Side -->
+                <div class="flex-shrink-0">
+                    <a href="/" class="text-3xl font-bold font-playfair">
+                        <span class="text-white">VEL</span><span class="text-yellow-400">OURA</span>
+                    </a>
+                </div>
+
+                <!-- Center Title -->
+                <div class="flex-1 text-center">
+                    <h1 class="text-2xl font-semibold text-white font-playfair">
+                        <i class="fas fa-user-circle text-green-400 mr-3"></i>
+                        My Profile
+                    </h1>
+                </div>
+
+                <!-- Right Side Navigation -->
+                <div class="flex items-center space-x-4">
+                    <!-- Home Icon -->
+                    <a href="/" class="text-white hover:text-yellow-400 transition-all duration-300 group" title="Go to Homepage">
+                        <div class="bg-gray-700 group-hover:bg-green-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-home text-lg"></i>
+                        </div>
+                    </a>
+
+                    <!-- Shop Icon -->
+                    <a href="/shop" class="text-white hover:text-yellow-400 transition-all duration-300 group" title="Shop">
+                        <div class="bg-gray-700 group-hover:bg-blue-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-store text-lg"></i>
+                        </div>
+                    </a>
+
+                    <!-- Wishlist Icon -->
+                    <a href="/wishlist" class="text-white hover:text-red-400 transition-all duration-300 group relative" title="Wishlist">
+                        <div class="bg-gray-700 group-hover:bg-red-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-heart text-lg"></i>
+                        </div>
+                        <% if (typeof user.wishlist !== 'undefined' && user.wishlist.length > 0) { %>
+                            <span class="notification-badge">
+                                <%= user.wishlist.length %>
+                            </span>
+                        <% } %>
+                    </a>
+
+                    <!-- Cart Icon -->
+                    <a href="/cart" class="text-white hover:text-yellow-400 transition-all duration-300 group relative" title="Shopping Cart">
+                        <div class="bg-gray-700 group-hover:bg-yellow-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-shopping-bag text-lg"></i>
+                        </div>
+                        <% if (typeof user.cart !== 'undefined' && user.cart.length > 0) { %>
+                            <% const cartCount = user.cart.reduce((total, item) => total + (item.quantity || 1), 0) %>
+                            <% if (cartCount > 0) { %>
+                                <span class="notification-badge">
+                                    <%= cartCount %>
+                                </span>
+                            <% } %>
+                        <% } %>
+                    </a>
+                    
+                    <!-- User Dropdown Menu -->
+                    <div class="relative group">
+                        <button class="flex items-center text-white hover:text-yellow-400 transition-all duration-300">
+                            <div class="bg-green-600 hover:bg-green-500 p-3 rounded-full transition-all duration-300">
+                                <i class="fas fa-user text-lg"></i>
+                            </div>
+                        </button>
+                        
+                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-2">
+                                <a href="/user/orders" class="block px-4 py-2 text-gray-800 hover:bg-yellow-50 transition-colors">
+                                    <i class="fas fa-box mr-2 text-yellow-600"></i>My Orders
+                                </a>
+                                <a href="/user/purchases" class="block px-4 py-2 text-gray-800 hover:bg-yellow-50 transition-colors">
+                                    <i class="fas fa-receipt mr-2 text-yellow-600"></i>Purchase History
+                                </a>
+                                <div class="border-t border-gray-200 my-1"></div>
+                                <a href="/users/logout" class="block px-4 py-2 text-red-600 hover:bg-red-50 transition-colors">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-12">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-4xl font-bold font-playfair text-gray-900 mb-4">My Profile</h1>
+                    <nav class="text-sm text-gray-600">
+                        <a href="/" class="hover:text-yellow-600">Home</a>
+                        <span class="mx-2">/</span>
+                        <span class="text-gray-900">Profile</span>
+                    </nav>
+                </div>
+                
+                <!-- Member Since -->
+                <div class="text-right">
+                    <p class="text-sm text-gray-600">Member since</p>
+                    <p class="text-lg font-semibold text-gray-900">
+                        <%= new Date(user.createdAt || Date.now()).getFullYear() %>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flash Messages -->
+        <% if (typeof success !== 'undefined' && success && success.length > 0) { %>
+            <div class="bg-green-100 border border-green-400 text-green-700 px-6 py-4 rounded-lg mb-8">
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle mr-3"></i>
+                    <span><%= success %></span>
+                </div>
+            </div>
+        <% } %>
+
+        <!-- Profile Overview Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-12">
+            <!-- Profile Card - FIXED for long text -->
+            <div class="lg:col-span-1">
+                <div class="dashboard-card profile-card rounded-2xl p-6 text-center">
+                    <div class="profile-avatar rounded-full mx-auto mb-6 flex items-center justify-center">
+                        <i class="fas fa-user text-3xl text-white"></i>
+                    </div>
+                    <h2 class="text-xl font-bold font-playfair text-gray-900 mb-3 profile-name">
+                        <%= user.username %>
+                    </h2>
+                    <p class="text-gray-600 mb-6 text-sm profile-email">
+                        <i class="fas fa-envelope mr-2 text-yellow-600"></i>
+                        <span class="break-all"><%= user.email %></span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="lg:col-span-3">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Total Orders -->
+                    <div class="dashboard-card rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-shopping-cart text-blue-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="stat-number">12</div>
+                        <p class="text-gray-600 font-medium">Total Orders</p>
+                    </div>
+
+                    <!-- Wishlist Items -->
+                    <div class="dashboard-card rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-heart text-red-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="stat-number"><%= user.wishlist ? user.wishlist.length : 0 %></div>
+                        <p class="text-gray-600 font-medium">Wishlist Items</p>
+                    </div>
+
+                    <!-- Cart Items -->
+                    <div class="dashboard-card rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-shopping-bag text-yellow-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="stat-number">
+                            <%= user.cart ? user.cart.reduce((total, item) => total + (item.quantity || 1), 0) : 0 %>
+                        </div>
+                        <p class="text-gray-600 font-medium">Cart Items</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- All Orders Section -->
+        <div class="dashboard-card rounded-2xl p-8">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold font-playfair text-gray-900">
+                    <i class="fas fa-list text-yellow-600 mr-3"></i>
+                    All Orders
+                </h3>
+                <span class="text-sm text-gray-500">Total: 12 orders</span>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="border-b border-gray-200">
+                            <th class="py-3 px-4 font-semibold text-gray-900">Order ID</th>
+                            <th class="py-3 px-4 font-semibold text-gray-900">Product</th>
+                            <th class="py-3 px-4 font-semibold text-gray-900">Date</th>
+                            <th class="py-3 px-4 font-semibold text-gray-900">Status</th>
+                            <th class="py-3 px-4 font-semibold text-gray-900">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <!-- Order Row 1 -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="py-4 px-4 text-sm text-gray-900">#VL-2025-0045</td>
+                            <td class="py-4 px-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gray-200 rounded flex items-center justify-center">
+                                        <i class="fas fa-link text-gray-400"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-900">Gold Chain Premium</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-4 text-sm text-gray-600">Jan 15, 2025</td>
+                            <td class="py-4 px-4">
+                                <span class="status-delivered text-xs px-2 py-1 rounded-full font-medium">
+                                    Delivered
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-sm font-semibold text-gray-900">₹12,500</td>
+                        </tr>
+                        
+                        <!-- Order Row 2 -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="py-4 px-4 text-sm text-gray-900">#VL-2025-0038</td>
+                            <td class="py-4 px-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gray-200 rounded flex items-center justify-center">
+                                        <i class="fas fa-ring text-gray-400"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-900">Diamond Ring Elegant</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-4 text-sm text-gray-600">Jan 12, 2025</td>
+                            <td class="py-4 px-4">
+                                <span class="status-shipped text-xs px-2 py-1 rounded-full font-medium">
+                                    Shipped
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-sm font-semibold text-gray-900">₹25,750</td>
+                        </tr>
+                        
+                        <!-- Order Row 3 -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="py-4 px-4 text-sm text-gray-900">#VL-2025-0031</td>
+                            <td class="py-4 px-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gray-200 rounded flex items-center justify-center">
+                                        <i class="fas fa-circle text-gray-400"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-900">Silver Bracelet Classic</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-4 text-sm text-gray-600">Jan 8, 2025</td>
+                            <td class="py-4 px-4">
+                                <span class="status-delivered text-xs px-2 py-1 rounded-full font-medium">
+                                    Delivered
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-sm font-semibold text-gray-900">₹8,200</td>
+                        </tr>
+                        
+                        <!-- Order Row 4 -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="py-4 px-4 text-sm text-gray-900">#VL-2025-0024</td>
+                            <td class="py-4 px-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gray-200 rounded flex items-center justify-center">
+                                        <i class="fas fa-gem text-gray-400"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-900">Pearl Necklace Luxury</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-4 text-sm text-gray-600">Jan 3, 2025</td>
+                            <td class="py-4 px-4">
+                                <span class="status-delivered text-xs px-2 py-1 rounded-full font-medium">
+                                    Delivered
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-sm font-semibold text-gray-900">₹18,900</td>
+                        </tr>
+                        
+                        <!-- Order Row 5 -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="py-4 px-4 text-sm text-gray-900">#VL-2025-0017</td>
+                            <td class="py-4 px-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gray-200 rounded flex items-center justify-center">
+                                        <i class="fas fa-crown text-gray-400"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-900">Royal Chain Gold</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-4 text-sm text-gray-600">Dec 28, 2024</td>
+                            <td class="py-4 px-4">
+                                <span class="status-delivered text-xs px-2 py-1 rounded-full font-medium">
+                                    Delivered
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-sm font-semibold text-gray-900">₹32,000</td>
+                        </tr>
+                        
+                        <!-- Order Row 6 -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="py-4 px-4 text-sm text-gray-900">#VL-2024-0156</td>
+                            <td class="py-4 px-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gray-200 rounded flex items-center justify-center">
+                                        <i class="fas fa-star text-gray-400"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-900">Platinum Ring Designer</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-4 text-sm text-gray-600">Dec 20, 2024</td>
+                            <td class="py-4 px-4">
+                                <span class="status-delivered text-xs px-2 py-1 rounded-full font-medium">
+                                    Delivered
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-sm font-semibold text-gray-900">₹45,000</td>
+                        </tr>
+                        
+                        <!-- Order Row 7 -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="py-4 px-4 text-sm text-gray-900">#VL-2024-0142</td>
+                            <td class="py-4 px-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gray-200 rounded flex items-center justify-center">
+                                        <i class="fas fa-heart text-gray-400"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-900">Love Bracelet Rose Gold</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-4 text-sm text-gray-600">Dec 15, 2024</td>
+                            <td class="py-4 px-4">
+                                <span class="status-delivered text-xs px-2 py-1 rounded-full font-medium">
+                                    Delivered
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-sm font-semibold text-gray-900">₹22,500</td>
+                        </tr>
+                        
+                        <!-- Order Row 8 -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="py-4 px-4 text-sm text-gray-900">#VL-2024-0128</td>
+                            <td class="py-4 px-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gray-200 rounded flex items-center justify-center">
+                                        <i class="fas fa-circle text-gray-400"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-900">Tennis Bracelet Diamond</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-4 text-sm text-gray-600">Dec 10, 2024</td>
+                            <td class="py-4 px-4">
+                                <span class="status-delivered text-xs px-2 py-1 rounded-full font-medium">
+                                    Delivered
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-sm font-semibold text-gray-900">₹38,750</td>
+                        </tr>
+                        
+                        <!-- Order Row 9 -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="py-4 px-4 text-sm text-gray-900">#VL-2024-0115</td>
+                            <td class="py-4 px-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gray-200 rounded flex items-center justify-center">
+                                        <i class="fas fa-link text-gray-400"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-900">Cuban Link Chain Silver</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-4 text-sm text-gray-600">Dec 5, 2024</td>
+                            <td class="py-4 px-4">
+                                <span class="status-delivered text-xs px-2 py-1 rounded-full font-medium">
+                                    Delivered
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-sm font-semibold text-gray-900">₹15,200</td>
+                        </tr>
+                        
+                        <!-- Order Row 10 -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="py-4 px-4 text-sm text-gray-900">#VL-2024-0098</td>
+                            <td class="py-4 px-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gray-200 rounded flex items-center justify-center">
+                                        <i class="fas fa-ring text-gray-400"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-900">Solitaire Ring White Gold</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-4 text-sm text-gray-600">Nov 28, 2024</td>
+                            <td class="py-4 px-4">
+                                <span class="status-delivered text-xs px-2 py-1 rounded-full font-medium">
+                                    Delivered
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-sm font-semibold text-gray-900">₹52,000</td>
+                        </tr>
+                        
+                        <!-- Order Row 11 -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="py-4 px-4 text-sm text-gray-900">#VL-2024-0084</td>
+                            <td class="py-4 px-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gray-200 rounded flex items-center justify-center">
+                                        <i class="fas fa-gem text-gray-400"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-900">Emerald Earrings Vintage</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-4 text-sm text-gray-600">Nov 20, 2024</td>
+                            <td class="py-4 px-4">
+                                <span class="status-delivered text-xs px-2 py-1 rounded-full font-medium">
+                                    Delivered
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-sm font-semibold text-gray-900">₹28,400</td>
+                        </tr>
+                        
+                        <!-- Order Row 12 -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="py-4 px-4 text-sm text-gray-900">#VL-2024-0067</td>
+                            <td class="py-4 px-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gray-200 rounded flex items-center justify-center">
+                                        <i class="fas fa-crown text-gray-400"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-900">Luxury Watch Gold</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-4 text-sm text-gray-600">Nov 15, 2024</td>
+                            <td class="py-4 px-4">
+                                <span class="status-delivered text-xs px-2 py-1 rounded-full font-medium">
+                                    Delivered
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-sm font-semibold text-gray-900">₹75,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="premium-gradient text-white py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-6">
+                        <h3 class="text-3xl font-bold font-playfair">
+                            <span class="text-white">VEL</span><span class="text-yellow-400">OURA</span>
+                        </h3>
+                    </div>
+                    <p class="text-gray-300 mb-6 text-lg leading-relaxed max-w-md">
+                        Your trusted partner for luxury jewelry. We craft memories, one exquisite piece at a time, 
+                        with dedication to quality and timeless elegance.
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-pinterest"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-yellow-400">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="/" class="text-gray-300 hover:text-white transition-colors duration-300">Home</a></li>
+                        <li><a href="/shop?category=chain" class="text-gray-300 hover:text-white transition-colors duration-300">Premium Chains</a></li>
+                        <li><a href="/shop?category=ring" class="text-gray-300 hover:text-white transition-colors duration-300">Elegant Rings</a></li>
+                        <li><a href="/shop?category=bracelet" class="text-gray-300 hover:text-white transition-colors duration-300">Stunning Bracelets</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Gift Cards</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-yellow-400">Customer Care</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Shipping & Returns</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Size Guide</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Care Instructions</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Warranty</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 mb-4 md:mb-0">
+                        © 2025 Veloura. All rights reserved. | Crafted with ♥ for jewelry enthusiasts worldwide
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Terms of Service</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Licensing</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Auto-hide flash messages
+        setTimeout(() => {
+            const flashMessages = document.querySelectorAll('[class*="bg-green-100"], [class*="bg-red-100"]');
+            flashMessages.forEach(message => {
+                message.style.transition = 'opacity 0.5s ease';
+                message.style.opacity = '0';
+                setTimeout(() => {
+                    if (message.parentNode) {
+                        message.parentNode.removeChild(message);
+                    }
+                }, 500);
+            });
+        }, 5000);
+    </script>
+</body>
+</html>

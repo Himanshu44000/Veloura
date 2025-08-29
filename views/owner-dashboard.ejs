@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Veloura</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        
+        .premium-gradient {
+            background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 50%, #1a1a1a 100%);
+        }
+        
+        .gold-gradient {
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #b8860b 100%);
+        }
+
+        .cream-bg {
+            background: linear-gradient(135deg, #faf7f2 0%, #f5f1ea 50%, #f0ebe3 100%);
+        }
+
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="cream-bg font-inter min-h-screen">
+ <!-- Admin Navigation Bar -->
+<nav class="premium-gradient shadow-2xl sticky top-0 z-50 border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+            <!-- Profile Section -->
+            <div class="flex items-center">
+                <a href="/owners/dashboard" class="flex items-center text-white hover:text-yellow-400 transition-all duration-300 group">
+                    <div class="bg-yellow-600 group-hover:bg-yellow-500 p-2 rounded-full transition-all duration-300">
+                        <i class="fas fa-user-circle text-lg text-black"></i>
+                    </div>
+                    <span class="ml-3 hidden sm:block font-medium">Profile</span>
+                </a>
+            </div>
+
+            <!-- Logo -->
+            <div class="flex-1 flex justify-center">
+                <a href="/" class="text-4xl font-bold font-playfair">
+                    <span class="text-white">VEL</span><span class="text-yellow-400">OURA</span>
+                    <span class="text-yellow-400 text-lg ml-2">ADMIN</span>
+                </a>
+            </div>
+
+            <!-- Admin Navigation Links -->
+            <div class="flex items-center space-x-4">
+                <!-- Home Icon -->
+                <a href="/" class="text-white hover:text-yellow-400 transition-all duration-300 group" title="Go to Homepage">
+                    <div class="bg-gray-700 group-hover:bg-green-500 p-2 rounded-full transition-all duration-300">
+                        <i class="fas fa-home text-lg"></i>
+                    </div>
+                </a>
+                
+                <!-- Cart -->
+                <a href="/cart" class="text-white hover:text-yellow-400 transition-all duration-300 group" title="View Cart">
+                    <div class="bg-gray-700 group-hover:bg-yellow-500 p-2 rounded-full transition-all duration-300">
+                        <i class="fas fa-shopping-cart text-lg"></i>
+                    </div>
+                </a>
+                
+                <!-- Shop -->
+                <a href="/shop" class="text-white hover:text-yellow-400 transition-all duration-300 group" title="View Shop">
+                    <div class="bg-gray-700 group-hover:bg-blue-500 p-2 rounded-full transition-all duration-300">
+                        <i class="fas fa-store text-lg"></i>
+                    </div>
+                </a>
+                
+                <!-- Manage Products -->
+                <a href="/owners/manage-products" class="text-white hover:text-yellow-400 transition-all duration-300 group" title="Manage Products">
+                    <div class="bg-blue-600 group-hover:bg-blue-500 p-2 rounded-full transition-all duration-300">
+                        <i class="fas fa-box text-lg"></i>
+                    </div>
+                </a>
+                
+                <!-- Logout -->
+                <a href="/users/logout" class="text-white hover:text-red-400 transition-all duration-300 group" title="Logout">
+                    <div class="bg-red-600 group-hover:bg-red-500 p-2 rounded-full transition-all duration-300">
+                        <i class="fas fa-sign-out-alt text-lg"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-12">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-4xl font-bold font-playfair text-gray-900 mb-4">Admin Dashboard</h1>
+                    <p class="text-lg text-gray-600">Welcome back, <%= user.username %>! Manage your Veloura jewelry collection.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="/owners/create-product" class="gold-gradient text-black font-semibold py-3 px-6 rounded-lg hover:scale-105 transition-transform duration-300">
+                        <i class="fas fa-plus mr-2"></i>Create Product
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flash Messages -->
+        <% if (error && error.length > 0) { %>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg mb-8">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-triangle mr-3"></i>
+                    <span><%= error %></span>
+                </div>
+            </div>
+        <% } %>
+
+        <% if (success && success.length > 0) { %>
+            <div class="bg-green-100 border border-green-400 text-green-700 px-6 py-4 rounded-lg mb-8">
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle mr-3"></i>
+                    <span><%= success %></span>
+                </div>
+            </div>
+        <% } %>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            <!-- Total Products -->
+            <div class="stat-card bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Total Products</p>
+                        <p class="text-3xl font-bold text-gray-900"><%= stats.totalProducts %></p>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded-full">
+                        <i class="fas fa-box text-2xl text-blue-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Products -->
+            <div class="stat-card bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Featured Products</p>
+                        <p class="text-3xl font-bold text-gray-900"><%= stats.featuredProducts %></p>
+                    </div>
+                    <div class="bg-yellow-100 p-3 rounded-full">
+                        <i class="fas fa-star text-2xl text-yellow-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Users -->
+            <div class="stat-card bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Total Users</p>
+                        <p class="text-3xl font-bold text-gray-900"><%= stats.totalUsers %></p>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-full">
+                        <i class="fas fa-users text-2xl text-green-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Orders -->
+            <div class="stat-card bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Total Orders</p>
+                        <p class="text-3xl font-bold text-gray-900"><%= stats.totalOrders %></p>
+                    </div>
+                    <div class="bg-purple-100 p-3 rounded-full">
+                        <i class="fas fa-shopping-cart text-2xl text-purple-600"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <!-- Create Product -->
+            <a href="/owners/create-product" class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                <div class="flex items-center mb-4">
+                    <div class="bg-green-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-plus text-2xl text-green-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900">Create Product</h3>
+                </div>
+                <p class="text-gray-600">Add new jewelry items to your collection</p>
+            </a>
+
+            <!-- Manage Products -->
+            <a href="/owners/manage-products" class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-cog text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900">Manage Products</h3>
+                </div>
+                <p class="text-gray-600">Edit, delete, and organize your products</p>
+            </a>
+
+            <!-- View Shop -->
+            <a href="/shop" class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                <div class="flex items-center mb-4">
+                    <div class="bg-purple-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-store text-2xl text-purple-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900">View Shop</h3>
+                </div>
+                <p class="text-gray-600">See how your store looks to customers</p>
+            </a>
+        </div>
+
+        <!-- Recent Products -->
+        <div class="bg-white rounded-xl shadow-lg p-8">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-2xl font-semibold font-playfair text-gray-900">Recent Products</h2>
+                <a href="/owners/manage-products" class="text-yellow-600 hover:text-yellow-700 font-medium">
+                    View All <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+
+            <% if (recentProducts && recentProducts.length > 0) { %>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <% recentProducts.forEach(product => { %>
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300">
+                            <div class="flex items-center mb-4">
+                                <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center mr-4">
+                                    <% if (product.image) { %>
+                                        <img src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" 
+                                             alt="<%= product.name %>" 
+                                             class="w-full h-full object-cover rounded-lg">
+                                    <% } else { %>
+                                        <i class="fas fa-image text-gray-400"></i>
+                                    <% } %>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-900"><%= product.name %></h3>
+                                    <p class="text-sm text-gray-600 capitalize"><%= product.category %></p>
+                                    <p class="text-lg font-bold text-yellow-600">₹<%= product.price - product.discount %></p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="<%= product.isFeatured ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800' %> px-2 py-1 rounded-full text-xs font-semibold">
+                                    <%= product.isFeatured ? 'Featured' : 'Regular' %>
+                                </span>
+                                <a href="/owners/edit-product/<%= product._id %>" class="text-blue-600 hover:text-blue-700 text-sm">
+                                    <i class="fas fa-edit mr-1"></i>Edit
+                                </a>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <div class="text-center py-12">
+                    <i class="fas fa-box-open text-6xl text-gray-400 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-600 mb-4">No Products Yet</h3>
+                    <p class="text-gray-500 mb-6">Start by creating your first product</p>
+                    <a href="/owners/create-product" class="gold-gradient text-black font-semibold py-3 px-6 rounded-lg hover:scale-105 transition-transform duration-300">
+                        <i class="fas fa-plus mr-2"></i>Create Your First Product
+                    </a>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="premium-gradient text-white py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-6">
+                        <h3 class="text-3xl font-bold font-playfair">
+                            <span class="text-white">VEL</span><span class="text-yellow-400">OURA</span>
+                            <span class="text-yellow-400 text-lg ml-2">ADMIN</span>
+                        </h3>
+                    </div>
+                    <p class="text-gray-300 mb-6 text-lg leading-relaxed max-w-md">
+                        Admin panel for managing your luxury jewelry collection. Create, edit, and manage all your products with ease.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-yellow-400">Admin Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="/owners/dashboard" class="text-gray-300 hover:text-white transition-colors duration-300">Dashboard</a></li>
+                        <li><a href="/owners/create-product" class="text-gray-300 hover:text-white transition-colors duration-300">Create Product</a></li>
+                        <li><a href="/owners/manage-products" class="text-gray-300 hover:text-white transition-colors duration-300">Manage Products</a></li>
+                        <li><a href="/shop" class="text-gray-300 hover:text-white transition-colors duration-300">View Shop</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-yellow-400">Quick Actions</h4>
+                    <ul class="space-y-3">
+                        <li><a href="/" class="text-gray-300 hover:text-white transition-colors duration-300">View Homepage</a></li>
+                        <li><a href="/users/logout" class="text-gray-300 hover:text-white transition-colors duration-300">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2025 Veloura Admin Panel. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

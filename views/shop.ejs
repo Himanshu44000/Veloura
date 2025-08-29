@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Veloura Luxury Jewelry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        
+        .premium-gradient {
+            background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 50%, #1a1a1a 100%);
+        }
+        
+        .gold-gradient {
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #b8860b 100%);
+        }
+
+        .cream-bg {
+            background: linear-gradient(135deg, #faf7f2 0%, #f5f1ea 50%, #f0ebe3 100%);
+        }
+
+        /* Search bar styling */
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-input {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .search-input:focus {
+            border-color: #fbbf24;
+            box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
+        }
+
+        /* Filter dropdown styling */
+        .filter-dropdown {
+            position: relative;
+        }
+
+        .filter-content {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            z-index: 40;
+            min-width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .filter-content.show {
+            display: block;
+        }
+
+        .filter-section {
+            padding: 16px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .filter-section:last-child {
+            border-bottom: none;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.2s ease;
+        }
+
+        .filter-option:hover {
+            background-color: #f9fafb;
+        }
+
+        .filter-option input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        /* Product card styling - MEDIUM SIZE (2 per page view) */
+        .product-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+            min-height: 280px;
+            max-height: 320px;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-color: #fbbf24;
+        }
+
+        /* Text truncation */
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Pagination styling */
+        .pagination-btn {
+            padding: 10px 16px;
+            margin: 0 4px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid #d1d5db;
+        }
+
+        .pagination-btn:hover {
+            background-color: #f59e0b;
+            color: white;
+            border-color: #f59e0b;
+        }
+
+        .pagination-btn.active {
+            background-color: #d4af37;
+            color: white;
+            border-color: #d4af37;
+        }
+
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+            .search-container {
+                max-width: 250px;
+            }
+            
+            .filter-content {
+                right: -50px;
+                min-width: 280px;
+            }
+
+            .product-card {
+                max-height: auto;
+                min-height: auto;
+            }
+            
+            .product-card .md\:flex {
+                flex-direction: column;
+            }
+            
+            .product-card .md\:w-1\/3 {
+                width: 100%;
+            }
+            
+            .product-card .md\:w-2\/3 {
+                width: 100%;
+            }
+        }
+
+        /* Stock status */
+        .stock-status {
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .in-stock {
+            color: #059669;
+            background-color: #d1fae5;
+        }
+
+        .out-of-stock {
+            color: #dc2626;
+            background-color: #fee2e2;
+        }
+
+        /* Price styling */
+        .price-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #6b7280;
+            font-size: 0.9em;
+        }
+
+        .discount-badge {
+            background-color: #ef4444;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="cream-bg font-inter min-h-screen">
+    <!-- Dynamic Navigation Bar -->
+    <nav class="premium-gradient shadow-2xl sticky top-0 z-50 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo - Left Side -->
+                <div class="flex-shrink-0">
+                    <a href="/" class="text-3xl font-bold font-playfair">
+                        <span class="text-white">VEL</span><span class="text-yellow-400">OURA</span>
+                        <% if (typeof user !== 'undefined' && user && user.role === 'owner') { %>
+                            <span class="text-yellow-400 text-sm ml-1">ADMIN</span>
+                        <% } %>
+                    </a>
+                </div>
+
+                <!-- Search Bar - Center -->
+                <div class="flex-1 max-w-2xl mx-8">
+                    <div class="search-container">
+                        <div class="relative">
+                            <form action="/shop" method="GET" class="w-full">
+                                <input 
+                                    type="text" 
+                                    name="search"
+                                    id="searchInput"
+                                    placeholder="Search for jewelry..."
+                                    value="<%= typeof searchTerm !== 'undefined' ? searchTerm : '' %>"
+                                    class="search-input w-full px-4 py-3 pl-12 pr-12 bg-white rounded-full text-gray-700 placeholder-gray-400 focus:outline-none"
+                                >
+                                <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
+                                    <i class="fas fa-search text-gray-400"></i>
+                                </div>
+                                <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded-full transition-colors duration-200">
+                                    <i class="fas fa-search text-sm"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side Navigation -->
+                <div class="flex items-center space-x-4">
+                    <!-- Filter Button -->
+                    <div class="filter-dropdown">
+                        <button onclick="toggleFilter()" class="text-white hover:text-yellow-400 transition-all duration-300 group" title="Filter Products">
+                            <div class="bg-gray-700 group-hover:bg-purple-500 p-3 rounded-full transition-all duration-300 relative">
+                                <i class="fas fa-filter text-lg"></i>
+                                <span id="filterCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                            </div>
+                        </button>
+                        
+                        <!-- Filter Dropdown Content -->
+                        <div id="filterContent" class="filter-content">
+                            <div class="p-4 border-b border-gray-200">
+                                <h3 class="font-semibold text-gray-900 mb-2">Filter Products</h3>
+                                <button onclick="clearAllFilters()" class="text-sm text-red-600 hover:text-red-700">Clear All</button>
+                            </div>
+                            
+                            <!-- Product Type Filter -->
+                            <div class="filter-section">
+                                <h4 class="font-medium text-gray-800 mb-3">Product Type</h4>
+                                <label class="filter-option">
+                                    <input type="checkbox" name="category" value="chain" onchange="applyFilters()">
+                                    <span>Chains</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" name="category" value="ring" onchange="applyFilters()">
+                                    <span>Rings</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" name="category" value="bracelet" onchange="applyFilters()">
+                                    <span>Bracelets</span>
+                                </label>
+                            </div>
+
+                            <!-- Price Filter -->
+                            <div class="filter-section">
+                                <h4 class="font-medium text-gray-800 mb-3">Sort by Price</h4>
+                                <label class="filter-option">
+                                    <input type="radio" name="priceSort" value="lowToHigh" onchange="applyFilters()">
+                                    <span>Price: Low to High</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="radio" name="priceSort" value="highToLow" onchange="applyFilters()">
+                                    <span>Price: High to Low</span>
+                                </label>
+                            </div>
+
+                            <!-- Stock Filter -->
+                            <div class="filter-section">
+                                <h4 class="font-medium text-gray-800 mb-3">Availability</h4>
+                                <label class="filter-option">
+                                    <input type="checkbox" name="stock" value="inStock" onchange="applyFilters()">
+                                    <span>In Stock Only</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" name="stock" value="outOfStock" onchange="applyFilters()">
+                                    <span>Out of Stock</span>
+                                </label>
+                            </div>
+
+                            <!-- Rating Filter -->
+                            <div class="filter-section">
+                                <h4 class="font-medium text-gray-800 mb-3">Customer Rating</h4>
+                                <label class="filter-option">
+                                    <input type="checkbox" name="rating" value="4" onchange="applyFilters()">
+                                    <span>4 ⭐ & Above</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" name="rating" value="3" onchange="applyFilters()">
+                                    <span>3 ⭐ & Above</span>
+                                </label>
+                            </div>
+
+                            <!-- Featured Filter -->
+                            <div class="filter-section">
+                                <h4 class="font-medium text-gray-800 mb-3">Special</h4>
+                                <label class="filter-option">
+                                    <input type="checkbox" name="featured" value="true" onchange="applyFilters()">
+                                    <span>Featured Products</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" name="discount" value="true" onchange="applyFilters()">
+                                    <span>On Sale</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Home Icon -->
+                    <a href="/" class="text-white hover:text-yellow-400 transition-all duration-300 group" title="Go to Homepage">
+                        <div class="bg-gray-700 group-hover:bg-green-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-home text-lg"></i>
+                        </div>
+                    </a>
+
+                    <% if (typeof user !== 'undefined' && user && user.role === 'owner') { %>
+                        <!-- Owner Navigation -->
+                        <a href="/owners/manage-products" class="text-white hover:text-yellow-400 transition-all duration-300 group" title="Manage Products">
+                            <div class="bg-blue-600 group-hover:bg-blue-500 p-3 rounded-full transition-all duration-300">
+                                <i class="fas fa-box text-lg"></i>
+                            </div>
+                        </a>
+                        <a href="/cart" class="text-white hover:text-yellow-400 transition-all duration-300 group relative" title="Shopping Cart">
+                            <div class="bg-gray-700 group-hover:bg-yellow-500 p-3 rounded-full transition-all duration-300">
+                                <i class="fas fa-shopping-bag text-lg"></i>
+                            </div>
+                        </a>
+                        <a href="/wishlist" class="text-white hover:text-red-400 transition-all duration-300 group relative" title="Wishlist">
+                            <div class="bg-gray-700 group-hover:bg-red-500 p-3 rounded-full transition-all duration-300">
+                                <i class="fas fa-heart text-lg"></i>
+                            </div>
+                        </a>
+                        
+                        <!-- Owner Dropdown Menu -->
+                        <div class="relative group">
+                            <button class="flex items-center text-white hover:text-yellow-400 transition-all duration-300">
+                                <div class="bg-yellow-600 hover:bg-yellow-500 p-3 rounded-full transition-all duration-300">
+                                    <i class="fas fa-user-cog text-lg text-black"></i>
+                                </div>
+                            </button>
+                            
+                            <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <div class="py-2">
+                                    <a href="/owners/dashboard" class="block px-4 py-2 text-gray-800 hover:bg-yellow-50 transition-colors">
+                                        <i class="fas fa-tachometer-alt mr-2 text-yellow-600"></i>Dashboard
+                                    </a>
+                                    <a href="/owners/create-product" class="block px-4 py-2 text-gray-800 hover:bg-yellow-50 transition-colors">
+                                        <i class="fas fa-plus mr-2 text-yellow-600"></i>Create Product
+                                    </a>
+                                    <div class="border-t border-gray-200 my-1"></div>
+                                    <a href="/users/logout" class="block px-4 py-2 text-red-600 hover:bg-red-50 transition-colors">
+                                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <% } else { %>
+                        <!-- User Navigation -->
+                        <a href="/wishlist" class="text-white hover:text-red-400 transition-all duration-300 group relative" title="Wishlist">
+                            <div class="bg-gray-700 group-hover:bg-red-500 p-3 rounded-full transition-all duration-300">
+                                <i class="fas fa-heart text-lg"></i>
+                            </div>
+                        </a>
+                        <a href="/cart" class="text-white hover:text-yellow-400 transition-all duration-300 group relative" title="Shopping Cart">
+                            <div class="bg-gray-700 group-hover:bg-yellow-500 p-3 rounded-full transition-all duration-300">
+                                <i class="fas fa-shopping-bag text-lg"></i>
+                            </div>
+                        </a>
+                        
+                        <!-- User Dropdown Menu -->
+                        <div class="relative group">
+                            <button class="flex items-center text-white hover:text-yellow-400 transition-all duration-300">
+                                <div class="bg-green-600 hover:bg-green-500 p-3 rounded-full transition-all duration-300">
+                                    <i class="fas fa-user text-lg"></i>
+                                </div>
+                            </button>
+                            
+                            <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <div class="py-2">
+                                    <a href="/user/profile" class="block px-4 py-2 text-gray-800 hover:bg-yellow-50 transition-colors">
+                                        <i class="fas fa-user-circle mr-2 text-yellow-600"></i>My Profile
+                                    </a>
+                                    <a href="/user/orders" class="block px-4 py-2 text-gray-800 hover:bg-yellow-50 transition-colors">
+                                        <i class="fas fa-box mr-2 text-yellow-600"></i>My Orders
+                                    </a>
+                                    <div class="border-t border-gray-200 my-1"></div>
+                                    <a href="/users/logout" class="block px-4 py-2 text-red-600 hover:bg-red-50 transition-colors">
+                                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-12">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-4xl font-bold font-playfair text-gray-900 mb-4">
+                        <% if (typeof searchTerm !== 'undefined' && searchTerm) { %>
+                            Search Results for "<%= searchTerm %>"
+                        <% } else { %>
+                            Jewelry Collection
+                        <% } %>
+                    </h1>
+                    <nav class="text-sm text-gray-600">
+                        <a href="/" class="hover:text-yellow-600">Home</a>
+                        <span class="mx-2">/</span>
+                        <span class="text-gray-900">Shop</span>
+                    </nav>
+                </div>
+                
+                <!-- Results Count -->
+                <div class="text-right">
+                    <p class="text-lg text-gray-700">
+                        Showing <span class="font-semibold"><%= ((currentPage - 1) * productsPerPage) + 1 %></span> - 
+                        <span class="font-semibold"><%= Math.min(currentPage * productsPerPage, totalProducts) %></span> 
+                        of <span class="font-semibold"><%= totalProducts %></span> products
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flash Messages -->
+        <% if (typeof success !== 'undefined' && success && success.length > 0) { %>
+            <div class="bg-green-100 border border-green-400 text-green-700 px-6 py-4 rounded-lg mb-8">
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle mr-3"></i>
+                    <span><%= success %></span>
+                </div>
+            </div>
+        <% } %>
+
+        <!-- Products Grid - MEDIUM SIZE (2 products per page view) -->
+        <% if (products && products.length > 0) { %>
+            <div class="space-y-8">
+                <% products.forEach(product => { %>
+                    <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="md:flex">
+                            <!-- Product Image - Medium Size -->
+                            <div class="md:w-1/3 flex-shrink-0">
+                                <div class="h-48 md:h-64 bg-gray-200 relative overflow-hidden">
+                                    <% if (product.image) { %>
+                                        <img src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" 
+                                             alt="<%= product.name %>" 
+                                             class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                                    <% } else { %>
+                                        <div class="w-full h-full premium-gradient flex items-center justify-center">
+                                            <i class="fas fa-gem text-5xl text-yellow-400"></i>
+                                        </div>
+                                    <% } %>
+                                    
+                                    <!-- Discount Badge -->
+                                    <% if (product.discount > 0) { %>
+                                        <div class="absolute top-3 left-3 discount-badge">
+                                            <%= Math.round((product.discount / product.price) * 100) %>% OFF
+                                        </div>
+                                    <% } %>
+                                    
+                                    <!-- Featured Badge -->
+                                    <% if (product.isFeatured) { %>
+                                        <div class="absolute top-3 right-3 bg-yellow-500 text-black px-3 py-1 rounded-full text-sm font-bold">
+                                            <i class="fas fa-star mr-1"></i>Featured
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </div>
+
+                            <!-- Product Details - Medium Size -->
+                            <div class="md:w-2/3 p-6 md:p-8">
+                                <div class="flex items-start justify-between mb-4">
+                                    <div class="flex-1">
+                                        <h3 class="text-xl md:text-2xl font-bold font-playfair text-gray-900 mb-2">
+                                            <%= product.name %>
+                                        </h3>
+                                        <p class="text-sm text-gray-600 capitalize mb-3">
+                                            <i class="fas fa-layer-group mr-2 text-yellow-600"></i>
+                                            <%= product.category %>
+                                        </p>
+                                    </div>
+                                    
+                                    <!-- Stock Status - Medium -->
+                                    <div class="ml-4">
+                                        <% if (product.stock > 0) { %>
+                                            <span class="stock-status in-stock">
+                                                <i class="fas fa-check-circle mr-1"></i>
+                                                In Stock (<%= product.stock %> left)
+                                            </span>
+                                        <% } else { %>
+                                            <span class="stock-status out-of-stock">
+                                                <i class="fas fa-times-circle mr-1"></i>
+                                                Out of Stock
+                                            </span>
+                                        <% } %>
+                                    </div>
+                                </div>
+
+                                <!-- Description - Medium Length -->
+                                <p class="text-gray-600 mb-5 leading-relaxed line-clamp-3">
+                                    <%= product.description || 'Exquisitely crafted jewelry piece with premium materials and attention to detail. Perfect for special occasions or everyday elegance.' %>
+                                </p>
+
+                                <!-- Rating and Wishlist - Medium -->
+                                <div class="flex items-center justify-between mb-6">
+                                    <div class="flex items-center">
+                                        <div class="flex text-yellow-400 mr-3">
+                                            <% for(let i = 1; i <= 5; i++) { %>
+                                                <i class="fas fa-star <%= i <= (product.rating || 4.5) ? 'text-yellow-400' : 'text-gray-300' %>"></i>
+                                            <% } %>
+                                        </div>
+                                        <span class="text-sm text-gray-600">
+                                            (<%= product.reviewCount || Math.floor(Math.random() * 100) + 50 %> reviews)
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="flex items-center text-gray-500">
+                                        <i class="fas fa-heart text-red-400 mr-2"></i>
+                                        <span class="text-sm"><%= product.wishlistCount || Math.floor(Math.random() * 50) + 10 %> wishlist</span>
+                                    </div>
+                                </div>
+
+                                <!-- Price and Actions - Medium -->
+                                <div class="flex items-center justify-between">
+                                    <div class="price-display">
+                                        <span class="text-2xl md:text-3xl font-bold text-gray-900">
+                                            ₹<%= product.price - (product.discount || 0) %>
+                                        </span>
+                                        <% if (product.discount > 0) { %>
+                                            <span class="original-price text-lg md:text-xl">₹<%= product.price %></span>
+                                        <% } %>
+                                    </div>
+
+                                    <!-- Action Buttons - Medium -->
+                                    <div class="flex space-x-3">
+                                        <% if (product.stock > 0) { %>
+                                            <button onclick="addToWishlist('<%= product._id %>')" 
+                                                    class="bg-gray-200 hover:bg-red-100 text-gray-700 hover:text-red-600 px-4 py-3 rounded-lg transition-all duration-300">
+                                                <i class="fas fa-heart mr-2"></i>Wishlist
+                                            </button>
+                                            <button onclick="addToCart('<%= product._id %>')" 
+                                                    class="gold-gradient text-black px-6 py-3 rounded-lg font-semibold hover:scale-105 transition-transform duration-300 shadow-lg">
+                                                <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
+                                            </button>
+                                        <% } else { %>
+                                            <button disabled class="bg-gray-300 text-gray-500 px-6 py-3 rounded-lg cursor-not-allowed">
+                                                <i class="fas fa-ban mr-2"></i>Out of Stock
+                                            </button>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+
+            <!-- Pagination -->
+            <% if (totalPages > 1) { %>
+                <div class="mt-16 flex justify-center items-center space-x-2">
+                    <!-- Previous Button -->
+                    <% if (currentPage > 1) { %>
+                        <a href="?page=<%= currentPage - 1 %><%= searchTerm ? '&search=' + encodeURIComponent(searchTerm) : '' %>" 
+                           class="pagination-btn text-gray-700 hover:text-white">
+                            <i class="fas fa-chevron-left mr-1"></i>Previous
+                        </a>
+                    <% } %>
+
+                    <!-- Page Numbers -->
+                    <% 
+                        let startPage = Math.max(1, currentPage - 2);
+                        let endPage = Math.min(totalPages, currentPage + 2);
+                        
+                        if (startPage > 1) {
+                    %>
+                        <a href="?page=1<%= searchTerm ? '&search=' + encodeURIComponent(searchTerm) : '' %>" 
+                           class="pagination-btn text-gray-700 hover:text-white">1</a>
+                        <% if (startPage > 2) { %>
+                            <span class="pagination-btn border-none cursor-default text-gray-500">...</span>
+                        <% } %>
+                    <% } %>
+
+                    <% for(let i = startPage; i <= endPage; i++) { %>
+                        <a href="?page=<%= i %><%= searchTerm ? '&search=' + encodeURIComponent(searchTerm) : '' %>" 
+                           class="pagination-btn <%= i === currentPage ? 'active' : 'text-gray-700 hover:text-white' %>">
+                            <%= i %>
+                        </a>
+                    <% } %>
+
+                    <% if (endPage < totalPages) { %>
+                        <% if (endPage < totalPages - 1) { %>
+                            <span class="pagination-btn border-none cursor-default text-gray-500">...</span>
+                        <% } %>
+                        <a href="?page=<%= totalPages %><%= searchTerm ? '&search=' + encodeURIComponent(searchTerm) : '' %>" 
+                           class="pagination-btn text-gray-700 hover:text-white"><%= totalPages %></a>
+                    <% } %>
+
+                    <!-- Next Button -->
+                    <% if (currentPage < totalPages) { %>
+                        <a href="?page=<%= currentPage + 1 %><%= searchTerm ? '&search=' + encodeURIComponent(searchTerm) : '' %>" 
+                           class="pagination-btn text-gray-700 hover:text-white">
+                            Next<i class="fas fa-chevron-right ml-1"></i>
+                        </a>
+                    <% } %>
+                </div>
+            <% } %>
+        <% } else { %>
+            <!-- No Products Found -->
+            <div class="text-center py-16">
+                <div class="bg-white rounded-2xl shadow-lg p-12 max-w-lg mx-auto">
+                    <div class="mb-8">
+                        <i class="fas fa-search text-8xl text-gray-300"></i>
+                    </div>
+                    <h2 class="text-3xl font-semibold font-playfair text-gray-900 mb-4">No Products Found</h2>
+                    <p class="text-gray-600 mb-8 text-lg">
+                        <% if (typeof searchTerm !== 'undefined' && searchTerm) { %>
+                            We couldn't find any products matching "<%= searchTerm %>". 
+                            Try different keywords or browse all products.
+                        <% } else { %>
+                            No products are currently available. Check back soon for new arrivals!
+                        <% } %>
+                    </p>
+                    <div class="space-y-4">
+                        <% if (typeof searchTerm !== 'undefined' && searchTerm) { %>
+                            <a href="/shop" class="gold-gradient text-black px-8 py-4 rounded-xl font-semibold hover:scale-105 transition-transform duration-300 shadow-lg inline-block">
+                                <i class="fas fa-store mr-2"></i>View All Products
+                            </a>
+                        <% } %>
+                        <br>
+                        <a href="/" class="text-yellow-600 hover:text-yellow-700 font-medium">
+                            <i class="fas fa-home mr-2"></i>Back to Homepage
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- Footer -->
+    <footer class="premium-gradient text-white py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-6">
+                        <h3 class="text-3xl font-bold font-playfair">
+                            <span class="text-white">VEL</span><span class="text-yellow-400">OURA</span>
+                        </h3>
+                    </div>
+                    <p class="text-gray-300 mb-6 text-lg leading-relaxed max-w-md">
+                        Your trusted partner for luxury jewelry. We craft memories, one exquisite piece at a time, 
+                        with dedication to quality and timeless elegance.
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-pinterest"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-yellow-400">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="/" class="text-gray-300 hover:text-white transition-colors duration-300">Home</a></li>
+                        <li><a href="/shop?category=chain" class="text-gray-300 hover:text-white transition-colors duration-300">Premium Chains</a></li>
+                        <li><a href="/shop?category=ring" class="text-gray-300 hover:text-white transition-colors duration-300">Elegant Rings</a></li>
+                        <li><a href="/shop?category=bracelet" class="text-gray-300 hover:text-white transition-colors duration-300">Stunning Bracelets</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Gift Cards</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-yellow-400">Customer Care</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Shipping & Returns</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Size Guide</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Care Instructions</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Warranty</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 mb-4 md:mb-0">
+                        © 2025 Veloura. All rights reserved. | Crafted with ♥ for jewelry enthusiasts worldwide
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Terms of Service</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Licensing</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Filter functionality
+        function toggleFilter() {
+            const filterContent = document.getElementById('filterContent');
+            filterContent.classList.toggle('show');
+        }
+
+        function applyFilters() {
+            const url = new URL(window.location);
+            
+            // Get category filters
+            const categories = Array.from(document.querySelectorAll('input[name="category"]:checked'))
+                .map(cb => cb.value);
+            
+            // Get price sort
+            const priceSort = document.querySelector('input[name="priceSort"]:checked');
+            
+            // Get stock filters
+            const stockFilters = Array.from(document.querySelectorAll('input[name="stock"]:checked'))
+                .map(cb => cb.value);
+            
+            // Get rating filters
+            const ratingFilters = Array.from(document.querySelectorAll('input[name="rating"]:checked'))
+                .map(cb => cb.value);
+            
+            // Get special filters
+            const featured = document.querySelector('input[name="featured"]:checked');
+            const discount = document.querySelector('input[name="discount"]:checked');
+            
+            // Clear existing filter params
+            url.searchParams.delete('category');
+            url.searchParams.delete('priceSort');
+            url.searchParams.delete('stock');
+            url.searchParams.delete('rating');
+            url.searchParams.delete('featured');
+            url.searchParams.delete('discount');
+            url.searchParams.delete('page');
+            
+            // Add new filter params
+            if (categories.length > 0) {
+                categories.forEach(cat => url.searchParams.append('category', cat));
+            }
+            
+            if (priceSort) {
+                url.searchParams.set('priceSort', priceSort.value);
+            }
+            
+            if (stockFilters.length > 0) {
+                stockFilters.forEach(stock => url.searchParams.append('stock', stock));
+            }
+            
+            if (ratingFilters.length > 0) {
+                ratingFilters.forEach(rating => url.searchParams.append('rating', rating));
+            }
+            
+            if (featured) {
+                url.searchParams.set('featured', 'true');
+            }
+            
+            if (discount) {
+                url.searchParams.set('discount', 'true');
+            }
+            
+            // Update filter count
+            updateFilterCount();
+            
+            // Redirect with filters
+            window.location = url.toString();
+        }
+
+        function clearAllFilters() {
+            // Clear all checkboxes and radio buttons
+            document.querySelectorAll('#filterContent input[type="checkbox"], #filterContent input[type="radio"]')
+                .forEach(input => input.checked = false);
+            
+            // Redirect without filters
+            const url = new URL(window.location);
+            const searchTerm = url.searchParams.get('search');
+            
+            let newUrl = '/shop';
+            if (searchTerm) {
+                newUrl += '?search=' + encodeURIComponent(searchTerm);
+            }
+            
+            window.location = newUrl;
+        }
+
+        function updateFilterCount() {
+            const filterCount = document.querySelectorAll('#filterContent input:checked').length;
+            const filterCountElement = document.getElementById('filterCount');
+            
+            if (filterCount > 0) {
+                filterCountElement.textContent = filterCount;
+                filterCountElement.classList.remove('hidden');
+            } else {
+                filterCountElement.classList.add('hidden');
+            }
+        }
+
+        // Close filter dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const filterDropdown = document.querySelector('.filter-dropdown');
+            const filterContent = document.getElementById('filterContent');
+            
+            if (!filterDropdown.contains(event.target)) {
+                filterContent.classList.remove('show');
+            }
+        });
+
+        // Initialize filter count on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateFilterCount();
+            
+            // Apply URL filters to checkboxes
+            const url = new URL(window.location);
+            
+            // Set category filters
+            const categories = url.searchParams.getAll('category');
+            categories.forEach(cat => {
+                const checkbox = document.querySelector(`input[name="category"][value="${cat}"]`);
+                if (checkbox) checkbox.checked = true;
+            });
+            
+            // Set price sort
+            const priceSort = url.searchParams.get('priceSort');
+            if (priceSort) {
+                const radio = document.querySelector(`input[name="priceSort"][value="${priceSort}"]`);
+                if (radio) radio.checked = true;
+            }
+            
+            // Set stock filters
+            const stockFilters = url.searchParams.getAll('stock');
+            stockFilters.forEach(stock => {
+                const checkbox = document.querySelector(`input[name="stock"][value="${stock}"]`);
+                if (checkbox) checkbox.checked = true;
+            });
+            
+            // Set rating filters
+            const ratingFilters = url.searchParams.getAll('rating');
+            ratingFilters.forEach(rating => {
+                const checkbox = document.querySelector(`input[name="rating"][value="${rating}"]`);
+                if (checkbox) checkbox.checked = true;
+            });
+            
+            // Set special filters
+            if (url.searchParams.get('featured') === 'true') {
+                const checkbox = document.querySelector('input[name="featured"]');
+                if (checkbox) checkbox.checked = true;
+            }
+            
+            if (url.searchParams.get('discount') === 'true') {
+                const checkbox = document.querySelector('input[name="discount"]');
+                if (checkbox) checkbox.checked = true;
+            }
+            
+            updateFilterCount();
+        });
+
+        // Add to cart functionality
+        function addToCart(productId) {
+            fetch(`/addtocart/${productId}`, {
+                method: 'GET'
+            })
+            .then(response => {
+                if (response.ok) {
+                    showNotification('Added to cart!', 'success');
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    throw new Error('Failed to add to cart');
+                }
+            })
+            .catch(error => {
+                showNotification('Error adding to cart', 'error');
+            });
+        }
+
+        // Add to wishlist functionality
+        function addToWishlist(productId) {
+            fetch(`/addtowishlist/${productId}`, {
+                method: 'GET'
+            })
+            .then(response => {
+                if (response.ok) {
+                    showNotification('Added to wishlist!', 'success');
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    throw new Error('Failed to add to wishlist');
+                }
+            })
+            .catch(error => {
+                showNotification('Error adding to wishlist', 'error');
+            });
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 transition-all duration-300 ${
+                type === 'success' ? 'bg-green-500 text-white' :
+                type === 'error' ? 'bg-red-500 text-white' :
+                type === 'warning' ? 'bg-yellow-500 text-black' :
+                'bg-blue-500 text-white'
+            }`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Auto-hide flash messages
+        setTimeout(() => {
+            const flashMessages = document.querySelectorAll('[class*="bg-green-100"]');
+            flashMessages.forEach(message => {
+                message.style.transition = 'opacity 0.5s ease';
+                message.style.opacity = '0';
+                setTimeout(() => {
+                    if (message.parentNode) {
+                        message.parentNode.removeChild(message);
+                    }
+                }, 500);
+            });
+        }, 5000);
+    </script>
+</body>
+</html>

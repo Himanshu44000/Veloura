@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wishlist - Veloura Luxury Jewelry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        
+        .premium-gradient {
+            background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 50%, #1a1a1a 100%);
+        }
+        
+        .gold-gradient {
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #b8860b 100%);
+        }
+
+        .cream-bg {
+            background: linear-gradient(135deg, #faf7f2 0%, #f5f1ea 50%, #f0ebe3 100%);
+        }
+
+        /* Product card styling with hover effects */
+        .wishlist-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+
+        .wishlist-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-color: #fbbf24;
+        }
+
+        /* Notification badge styling */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444 !important;
+            color: white !important;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .notification-badge.hidden {
+            display: none !important;
+        }
+
+        /* Empty state styling */
+        .empty-state {
+            min-height: 60vh;
+        }
+
+        /* Button hover effects */
+        .btn-hover-scale:hover {
+            transform: scale(1.05);
+        }
+
+        /* Heart animation for wishlist items */
+        .wishlist-heart {
+            color: #ef4444;
+            animation: heartBeat 0.5s ease-in-out;
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="cream-bg font-inter min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="premium-gradient shadow-2xl sticky top-0 z-50 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo - Left Side -->
+                <div class="flex-shrink-0">
+                    <a href="/" class="text-3xl font-bold font-playfair">
+                        <span class="text-white">VEL</span><span class="text-yellow-400">OURA</span>
+                        <% if (user && user.role === 'owner') { %>
+                            <span class="text-yellow-400 text-sm ml-1">ADMIN</span>
+                        <% } %>
+                    </a>
+                </div>
+
+                <!-- Center Title -->
+                <div class="flex-1 text-center">
+                    <h1 class="text-2xl font-semibold text-white font-playfair">
+                        <i class="fas fa-heart text-red-400 mr-3"></i>
+                        My Wishlist
+                    </h1>
+                </div>
+
+                <!-- Right Side Navigation -->
+                <div class="flex items-center space-x-4">
+                    <!-- Home Icon -->
+                    <a href="/" class="text-white hover:text-yellow-400 transition-all duration-300 group" title="Go to Homepage">
+                        <div class="bg-gray-700 group-hover:bg-green-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-home text-lg"></i>
+                        </div>
+                    </a>
+
+                    <!-- Shop Icon -->
+                    <a href="/shop" class="text-white hover:text-yellow-400 transition-all duration-300 group" title="Shop">
+                        <div class="bg-gray-700 group-hover:bg-blue-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-store text-lg"></i>
+                        </div>
+                    </a>
+
+                    <% if (user && user.role === 'owner') { %>
+                        <!-- Owner Navigation -->
+                        <a href="/owners/manage-products" class="text-white hover:text-yellow-400 transition-all duration-300 group" title="Manage Products">
+                            <div class="bg-blue-600 group-hover:bg-blue-500 p-3 rounded-full transition-all duration-300">
+                                <i class="fas fa-box text-lg"></i>
+                            </div>
+                        </a>
+                        <a href="/cart" class="text-white hover:text-yellow-400 transition-all duration-300 group relative" title="Shopping Cart">
+                            <div class="bg-gray-700 group-hover:bg-yellow-500 p-3 rounded-full transition-all duration-300">
+                                <i class="fas fa-shopping-bag text-lg"></i>
+                            </div>
+                            <% if (typeof user.cart !== 'undefined' && user.cart.length > 0) { %>
+                                <% const cartCount = user.cart.reduce((total, item) => total + (item.quantity || 1), 0) %>
+                                <% if (cartCount > 0) { %>
+                                    <span class="notification-badge">
+                                        <%= cartCount %>
+                                    </span>
+                                <% } %>
+                            <% } %>
+                        </a>
+                        
+                        <!-- Owner Dropdown Menu -->
+                        <div class="relative group">
+                            <button class="flex items-center text-white hover:text-yellow-400 transition-all duration-300">
+                                <div class="bg-yellow-600 hover:bg-yellow-500 p-3 rounded-full transition-all duration-300">
+                                    <i class="fas fa-user-cog text-lg text-black"></i>
+                                </div>
+                            </button>
+                            
+                            <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <div class="py-2">
+                                    <a href="/owners/dashboard" class="block px-4 py-2 text-gray-800 hover:bg-yellow-50 transition-colors">
+                                        <i class="fas fa-tachometer-alt mr-2 text-yellow-600"></i>Dashboard
+                                    </a>
+                                    <a href="/owners/create-product" class="block px-4 py-2 text-gray-800 hover:bg-yellow-50 transition-colors">
+                                        <i class="fas fa-plus mr-2 text-yellow-600"></i>Create Product
+                                    </a>
+                                    <div class="border-t border-gray-200 my-1"></div>
+                                    <a href="/users/logout" class="block px-4 py-2 text-red-600 hover:bg-red-50 transition-colors">
+                                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <% } else { %>
+                        <!-- User Navigation -->
+                        <a href="/cart" class="text-white hover:text-yellow-400 transition-all duration-300 group relative" title="Shopping Cart">
+                            <div class="bg-gray-700 group-hover:bg-yellow-500 p-3 rounded-full transition-all duration-300">
+                                <i class="fas fa-shopping-bag text-lg"></i>
+                            </div>
+                            <% if (typeof user.cart !== 'undefined' && user.cart.length > 0) { %>
+                                <% const cartCount = user.cart.reduce((total, item) => total + (item.quantity || 1), 0) %>
+                                <% if (cartCount > 0) { %>
+                                    <span class="notification-badge">
+                                        <%= cartCount %>
+                                    </span>
+                                <% } %>
+                            <% } %>
+                        </a>
+                        
+                        <!-- User Dropdown Menu -->
+                        <div class="relative group">
+                            <button class="flex items-center text-white hover:text-yellow-400 transition-all duration-300">
+                                <div class="bg-green-600 hover:bg-green-500 p-3 rounded-full transition-all duration-300">
+                                    <i class="fas fa-user text-lg"></i>
+                                </div>
+                            </button>
+                            
+                            <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <div class="py-2">
+                                    <a href="/user/profile" class="block px-4 py-2 text-gray-800 hover:bg-yellow-50 transition-colors">
+                                        <i class="fas fa-user-circle mr-2 text-yellow-600"></i>My Profile
+                                    </a>
+                                    <a href="/user/orders" class="block px-4 py-2 text-gray-800 hover:bg-yellow-50 transition-colors">
+                                        <i class="fas fa-box mr-2 text-yellow-600"></i>My Orders
+                                    </a>
+                                    <a href="/user/purchases" class="block px-4 py-2 text-gray-800 hover:bg-yellow-50 transition-colors">
+                                        <i class="fas fa-receipt mr-2 text-yellow-600"></i>Purchase History
+                                    </a>
+                                    <div class="border-t border-gray-200 my-1"></div>
+                                    <a href="/users/logout" class="block px-4 py-2 text-red-600 hover:bg-red-50 transition-colors">
+                                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-12">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-4xl font-bold font-playfair text-gray-900 mb-4">My Wishlist</h1>
+                    <nav class="text-sm text-gray-600">
+                        <a href="/" class="hover:text-yellow-600">Home</a>
+                        <span class="mx-2">/</span>
+                        <span class="text-gray-900">Wishlist</span>
+                    </nav>
+                </div>
+                
+                <!-- Clear All Button -->
+                <% if (user.wishlist && user.wishlist.length > 0) { %>
+                    <div class="text-right">
+                        <button onclick="clearAllWishlist()" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 btn-hover-scale">
+                            <i class="fas fa-trash mr-2"></i>
+                            Clear All Wishlist
+                        </button>
+                    </div>
+                <% } %>
+            </div>
+            
+            <!-- Wishlist Count -->
+            <% if (user.wishlist && user.wishlist.length > 0) { %>
+                <div class="mt-6">
+                    <p class="text-lg text-gray-700">
+                        You have <span class="font-semibold text-yellow-600"><%= user.wishlist.length %></span> item<%= user.wishlist.length > 1 ? 's' : '' %> in your wishlist
+                    </p>
+                </div>
+            <% } %>
+        </div>
+
+        <!-- Flash Messages -->
+        <% if (typeof success !== 'undefined' && success && success.length > 0) { %>
+            <div class="bg-green-100 border border-green-400 text-green-700 px-6 py-4 rounded-lg mb-8">
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle mr-3"></i>
+                    <span><%= success %></span>
+                </div>
+            </div>
+        <% } %>
+
+        <% if (typeof error !== 'undefined' && error && error.length > 0) { %>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg mb-8">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-circle mr-3"></i>
+                    <span><%= error %></span>
+                </div>
+            </div>
+        <% } %>
+
+        <!-- Wishlist Content -->
+        <% if (user.wishlist && user.wishlist.length > 0) { %>
+            <!-- Wishlist Items Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <% user.wishlist.forEach(product => { %>
+                    <div class="wishlist-card bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="relative">
+                            <!-- Product Image -->
+                            <div class="h-64 bg-gray-200 relative overflow-hidden cursor-pointer" onclick="viewProduct('<%= product.name %>')">
+                                <% if (product.image) { %>
+                                    <img src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" 
+                                         alt="<%= product.name %>" 
+                                         class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                                <% } else { %>
+                                    <div class="w-full h-full premium-gradient flex items-center justify-center">
+                                        <i class="fas fa-gem text-4xl text-yellow-400"></i>
+                                    </div>
+                                <% } %>
+                                
+                                <!-- Discount Badge -->
+                                <% if (product.discount > 0) { %>
+                                    <div class="absolute top-3 left-3 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                                        <%= Math.round((product.discount / product.price) * 100) %>% OFF
+                                    </div>
+                                <% } %>
+                                
+                                <!-- Featured Badge -->
+                                <% if (product.isFeatured) { %>
+                                    <div class="absolute top-3 right-3 bg-yellow-500 text-black px-3 py-1 rounded-full text-sm font-bold">
+                                        <i class="fas fa-star mr-1"></i>Featured
+                                    </div>
+                                <% } %>
+                            </div>
+
+                            <!-- Remove from Wishlist Button -->
+                            <button onclick="removeFromWishlist('<%= product._id %>')" 
+                                    class="absolute top-3 right-3 bg-white text-red-500 p-2 rounded-full shadow-lg hover:bg-red-500 hover:text-white transition-all duration-300">
+                                <i class="fas fa-heart wishlist-heart"></i>
+                            </button>
+                        </div>
+
+                        <!-- Product Details -->
+                        <div class="p-6">
+                            <div class="cursor-pointer" onclick="viewProduct('<%= product.name %>')">
+                                <h3 class="text-xl font-bold font-playfair text-gray-900 mb-2 hover:text-yellow-600 transition-colors">
+                                    <%= product.name %>
+                                </h3>
+                                <p class="text-sm text-gray-600 capitalize mb-3">
+                                    <i class="fas fa-layer-group mr-2 text-yellow-600"></i>
+                                    <%= product.category %>
+                                </p>
+                                <p class="text-gray-600 mb-4 text-sm leading-relaxed">
+                                    <%= product.description ? product.description.substring(0, 100) + (product.description.length > 100 ? '...' : '') : 'Exquisitely crafted jewelry piece with premium materials.' %>
+                                </p>
+                            </div>
+
+                            <!-- Rating -->
+                            <div class="flex items-center mb-4">
+                                <div class="flex text-yellow-400 mr-3">
+                                    <% for(let i = 1; i <= 5; i++) { %>
+                                        <i class="fas fa-star <%= i <= (product.rating || 4.5) ? 'text-yellow-400' : 'text-gray-300' %>"></i>
+                                    <% } %>
+                                </div>
+                                <span class="text-sm text-gray-600">
+                                    (<%= product.reviewCount || Math.floor(Math.random() * 100) + 50 %> reviews)
+                                </span>
+                            </div>
+
+                            <!-- Price -->
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-2xl font-bold text-gray-900">
+                                        ₹<%= product.price - (product.discount || 0) %>
+                                    </span>
+                                    <% if (product.discount > 0) { %>
+                                        <span class="text-lg text-gray-500 line-through">₹<%= product.price %></span>
+                                    <% } %>
+                                </div>
+                                
+                                <!-- Stock Status -->
+                                <div>
+                                    <% if (product.stock > 0) { %>
+                                        <span class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">
+                                            <i class="fas fa-check-circle mr-1"></i>In Stock
+                                        </span>
+                                    <% } else { %>
+                                        <span class="text-xs text-red-600 bg-red-100 px-2 py-1 rounded-full">
+                                            <i class="fas fa-times-circle mr-1"></i>Out of Stock
+                                        </span>
+                                    <% } %>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="flex space-x-3">
+                                <% if (product.stock > 0) { %>
+                                    <button onclick="addToCart('<%= product._id %>')" 
+                                            class="flex-1 gold-gradient text-black px-4 py-3 rounded-lg font-semibold hover:scale-105 transition-transform duration-300 shadow-lg">
+                                        <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
+                                    </button>
+                                <% } else { %>
+                                    <button disabled class="flex-1 bg-gray-300 text-gray-500 px-4 py-3 rounded-lg cursor-not-allowed">
+                                        <i class="fas fa-ban mr-2"></i>Out of Stock
+                                    </button>
+                                <% } %>
+                                
+                                <button onclick="viewProduct('<%= product.name %>')" 
+                                        class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-3 rounded-lg font-semibold transition-colors duration-300">
+                                    <i class="fas fa-eye mr-2"></i>View
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+
+            <!-- Continue Shopping -->
+            <div class="text-center mt-16">
+                <a href="/shop" class="gold-gradient text-black px-8 py-4 rounded-lg font-semibold hover:scale-105 transition-transform duration-300 shadow-xl inline-block">
+                    <i class="fas fa-store mr-2"></i>Continue Shopping
+                </a>
+            </div>
+        <% } else { %>
+            <!-- Empty Wishlist State -->
+            <div class="empty-state flex items-center justify-center">
+                <div class="text-center max-w-md mx-auto">
+                    <div class="mb-8">
+                        <i class="fas fa-heart text-8xl text-gray-300 mb-6"></i>
+                        <h2 class="text-3xl font-semibold font-playfair text-gray-900 mb-4">
+                            No Wishlists Yet
+                        </h2>
+                        <p class="text-lg text-gray-600 mb-8">
+                            Your wishlist is empty. Start adding your favorite jewelry pieces to create your perfect collection!
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <a href="/shop" class="gold-gradient text-black px-8 py-4 rounded-xl font-semibold hover:scale-105 transition-transform duration-300 shadow-lg inline-block">
+                            <i class="fas fa-store mr-2"></i>Start Shopping
+                        </a>
+                        <br>
+                        <a href="/" class="text-yellow-600 hover:text-yellow-700 font-medium">
+                            <i class="fas fa-home mr-2"></i>Back to Homepage
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- Footer -->
+    <footer class="premium-gradient text-white py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-6">
+                        <h3 class="text-3xl font-bold font-playfair">
+                            <span class="text-white">VEL</span><span class="text-yellow-400">OURA</span>
+                        </h3>
+                    </div>
+                    <p class="text-gray-300 mb-6 text-lg leading-relaxed max-w-md">
+                        Your trusted partner for luxury jewelry. We craft memories, one exquisite piece at a time, 
+                        with dedication to quality and timeless elegance.
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-pinterest"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-yellow-400">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="/" class="text-gray-300 hover:text-white transition-colors duration-300">Home</a></li>
+                        <li><a href="/shop?category=chain" class="text-gray-300 hover:text-white transition-colors duration-300">Premium Chains</a></li>
+                        <li><a href="/shop?category=ring" class="text-gray-300 hover:text-white transition-colors duration-300">Elegant Rings</a></li>
+                        <li><a href="/shop?category=bracelet" class="text-gray-300 hover:text-white transition-colors duration-300">Stunning Bracelets</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Gift Cards</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-yellow-400">Customer Care</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Shipping & Returns</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Size Guide</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Care Instructions</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Warranty</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 mb-4 md:mb-0">
+                        © 2025 Veloura. All rights reserved. | Crafted with ♥ for jewelry enthusiasts worldwide
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Terms of Service</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Licensing</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // FIXED: View product - redirects to shop with product name search
+        function viewProduct(productName) {
+            // This will redirect to shop and search by product name instead of ID
+            window.location.href = `/shop?search=${encodeURIComponent(productName)}`;
+        }
+
+        // Add to cart functionality
+        function addToCart(productId) {
+            fetch(`/addtocart/${productId}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    showNotification('Added to cart!', 'success');
+                    // Update cart badge if exists
+                    updateCartBadge(data.cartCount);
+                } else {
+                    showNotification(data.message || 'Error adding to cart', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Error adding to cart', 'error');
+            });
+        }
+
+        // Remove from wishlist functionality
+        function removeFromWishlist(productId) {
+            if (confirm('Are you sure you want to remove this item from your wishlist?')) {
+                fetch(`/addtowishlist/${productId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        showNotification(data.message, 'success');
+                        // Reload page to update wishlist
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        showNotification(data.message || 'Error removing from wishlist', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Error removing from wishlist', 'error');
+                });
+            }
+        }
+
+        // Clear all wishlist functionality
+        function clearAllWishlist() {
+            if (confirm('Are you sure you want to clear your entire wishlist? This action cannot be undone.')) {
+                fetch('/wishlist/clear-all', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        showNotification('Wishlist cleared successfully!', 'success');
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        showNotification(data.message || 'Error clearing wishlist', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Error clearing wishlist', 'error');
+                });
+            }
+        }
+
+        // Update cart badge
+        function updateCartBadge(count) {
+            const cartBadge = document.querySelector('.notification-badge');
+            if (cartBadge) {
+                cartBadge.textContent = count;
+                if (count > 0) {
+                    cartBadge.classList.remove('hidden');
+                } else {
+                    cartBadge.classList.add('hidden');
+                }
+            }
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 transition-all duration-300 ${
+                type === 'success' ? 'bg-green-500 text-white' :
+                type === 'error' ? 'bg-red-500 text-white' :
+                type === 'warning' ? 'bg-yellow-500 text-black' :
+                'bg-blue-500 text-white'
+            }`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Auto-hide flash messages
+        setTimeout(() => {
+            const flashMessages = document.querySelectorAll('[class*="bg-green-100"], [class*="bg-red-100"]');
+            flashMessages.forEach(message => {
+                message.style.transition = 'opacity 0.5s ease';
+                message.style.opacity = '0';
+                setTimeout(() => {
+                    if (message.parentNode) {
+                        message.parentNode.removeChild(message);
+                    }
+                }, 500);
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
