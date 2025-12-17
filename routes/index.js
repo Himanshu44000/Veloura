@@ -67,10 +67,12 @@ router.get("/", async function (req, res) {
         featuredBracelets.push(...fallbackBracelets);
     }
 
+    // Use public folder paths served by express.static
+    // Either pass strings or objects with imageUrl
     const heroImages = [
-        { src: '/images/hero1.jpg', alt: 'Luxury Chains', title: 'Premium Chain Collection' },
-        { src: '/images/hero2.jpg', alt: 'Elegant Rings', title: 'Exquisite Ring Designs' },
-        { src: '/images/hero3.jpg', alt: 'Beautiful Bracelets', title: 'Stunning Bracelet Collection' }
+        { imageUrl: '/chain.jpeg', title: 'Premium Chain Collection' },
+        { imageUrl: '/ring.jpeg', title: 'Exquisite Ring Designs' },
+        { imageUrl: '/bracelet.jpeg', title: 'Stunning Bracelet Collection' }
     ];
 
     res.render("index", {
