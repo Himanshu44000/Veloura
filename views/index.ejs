@@ -379,38 +379,36 @@
         <div id="carousel" class="flex transition-transform duration-500 h-full">
             <% heroImages.forEach((image, index)=> { %>
                 <div class="w-full h-full flex-shrink-0 relative">
-                    <div
-                        class="w-full h-full premium-gradient flex items-center justify-center relative overflow-hidden">
-                        <!-- Background Pattern -->
-                        <div class="absolute inset-0 opacity-10">
-                            <div class="absolute inset-0"
-                                style="background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0); background-size: 40px 40px;">
+                    <%
+                        // Support multiple hero image input formats:
+                        // 1) Buffer (existing behavior)
+                        // 2) Public URL/path string (e.g., "/images/hero-1.jpg")
+                        // 3) Object with `imageUrl` string
+                        const heroSrc = (typeof image === 'string')
+                            ? image
+                            : (image && image.imageUrl)
+                                ? image.imageUrl
+                                : null;
+                    %>
+                    <% if (image && image.length > 0) { %>
+                        <!-- Buffer-based image -->
+                        <img src="data:image/jpeg;base64,<%= image.toString('base64') %>"
+                            alt="Hero Slide <%= index + 1 %>"
+                            class="w-full h-full object-cover">
+                    <% } else if (heroSrc) { %>
+                        <!-- Public folder image / URL -->
+                        <img src="<%= heroSrc %>"
+                            alt="Hero Slide <%= index + 1 %>"
+                            class="w-full h-full object-cover">
+                    <% } else { %>
+                        <div
+                            class="w-full h-full premium-gradient flex items-center justify-center relative overflow-hidden">
+                            <div class="text-center">
+                                <i class="fas fa-image text-6xl text-yellow-400 mb-4"></i>
+                                <p class="text-white text-xl font-playfair">Luxury Jewelry Collection</p>
                             </div>
                         </div>
-
-                        <div class="relative z-10 text-center text-white max-w-4xl px-6">
-                            <h1 class="text-5xl md:text-7xl font-bold font-playfair mb-6">
-                                <%= image.title %>
-                            </h1>
-                            <p class="text-xl md:text-2xl mb-8 text-gray-300">
-                                Discover our exquisite collection of handcrafted luxury jewelry
-                            </p>
-                            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                                <a href="/shop"
-                                    class="gold-gradient text-black px-8 py-4 rounded-lg font-semibold hover:scale-105 transition-transform duration-300 shadow-xl">
-                                    Explore Collection
-                                </a>
-                                <% if (!loggedin) { %>
-                                    <a href="/users/register"
-                                        class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-black transition-all duration-300">
-                                        Join Veloura
-                                    </a>
-                                    <% } %>
-                            </div>
-                        </div>
-
-
-                    </div>
+                    <% } %>
                 </div>
                 <% }) %>
         </div>
@@ -436,7 +434,7 @@
     </div>
 
     <!-- Featured Chains Section -->
-    <section class="py-20 bg-white">
+    <section class="py-20 bg-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-4xl md:text-5xl font-bold font-playfair text-gray-900 mb-4">
@@ -600,17 +598,17 @@
 
 
     <!-- Moving Tagline -->
-    <div class="premium-gradient py-6 overflow-hidden border-y-4 border-yellow-400">
+    <div class="premium-gradient py-6 overflow-hidden border-y-4 ">
         <div class="scroll-text whitespace-nowrap">
             <span class="text-yellow-400 text-xl font-semibold px-12">
-                ✨ Discover Timeless Elegance • Premium Quality Guaranteed • Free Shipping on Orders Above ₹5000 •
-                Certified Authentic Jewelry • 30-Day Money Back Guarantee ✨
+                 Discover Timeless Elegance • Premium Quality Guaranteed • Free Shipping on Orders Above ₹3000 •
+                Certified Authentic Jewelry • 30-Day Money Back Guarantee 
             </span>
         </div>
     </div>
 
     <!-- Featured Rings Section -->
-    <section class="py-20 bg-gray-50">
+    <section class="py-20 bg-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between mb-12">
                 <h3 class="text-3xl font-semibold font-playfair text-gray-800">Exquisite Rings</h3>
@@ -753,7 +751,7 @@
 
 
     <!-- Info Sections -->
-    <section class="py-20 bg-white">
+    <section class="py-20 bg-amber-200/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div class="text-center group">
@@ -788,7 +786,7 @@
     </section>
 
     <!-- Featured Bracelets Section -->
-    <section class="py-20 bg-gray-50">
+    <section class="py-20 bg-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between mb-12">
                 <h3 class="text-3xl font-semibold font-playfair text-gray-800">Stunning Bracelets</h3>
@@ -973,7 +971,7 @@
 
                     <div class="flex space-x-4">
                         <a href="/shop"
-                            class="gold-gradient text-black px-6 py-3 rounded-lg font-semibold hover:scale-105 transition-transform duration-300">
+                            class="bg-amber-200 border text-black px-6 py-3 rounded-lg font-semibold hover:scale-105 transition-transform duration-300">
                             Explore Collection
                         </a>
                         <a href="#"
@@ -990,9 +988,6 @@
                             <p class="text-white text-xl font-playfair">Crafted with Precision</p>
                         </div>
                     </div>
-                    <!-- Decorative elements -->
-                    <div class="absolute -top-6 -left-6 w-24 h-24 gold-gradient rounded-full opacity-20"></div>
-                    <div class="absolute -bottom-6 -right-6 w-32 h-32 gold-gradient rounded-full opacity-15"></div>
                 </div>
             </div>
         </div>
