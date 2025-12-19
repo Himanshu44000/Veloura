@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Size Guide - Veloura Luxury Jewelry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        
+        .premium-gradient {
+            background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 50%, #1a1a1a 100%);
+        }
+        
+        .cream-bg {
+            background: linear-gradient(135deg, #faf7f2 0%, #f5f1ea 50%, #f0ebe3 100%);
+        }
+
+        .size-table {
+            border-collapse: collapse;
+        }
+
+        .size-table th {
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #b8860b 100%);
+            color: #1e1e1e;
+            font-weight: 600;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .size-table td {
+            border-bottom: 1px solid #e8ddd4;
+            padding: 12px;
+        }
+
+        .size-table tr:hover {
+            background-color: #f8f6f3;
+        }
+
+        .size-card {
+            background: linear-gradient(135deg, #f8f6f3 0%, #f0ebe3 100%);
+            border: 2px solid #d4af37;
+            transition: all 0.3s ease;
+        }
+
+        .size-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #d4af37, #ffd700, #b8860b);
+            border-radius: 2px;
+        }
+
+        .measurement-diagram {
+            background: linear-gradient(135deg, #f8f6f3 0%, #f0ebe3 100%);
+            border: 2px dashed #d4af37;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .tab-btn {
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .tab-btn.active {
+            border-bottom-color: #d4af37;
+            color: #d4af37;
+        }
+    </style>
+</head>
+<body class="font-inter bg-white">
+    <!-- Dynamic Navigation Bar -->
+    <nav class="premium-gradient shadow-2xl sticky top-0 z-50 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo - Left Side -->
+                <div class="flex-shrink-0">
+                    <a href="/" class="text-3xl font-bold font-playfair">
+                        <span class="text-white">VEL</span><span class="text-yellow-400">OURA</span>
+                    </a>
+                </div>
+
+                <!-- Right Side Navigation -->
+                <div class="flex items-center space-x-6">
+                    <!-- Home Icon -->
+                    <a href="/" class="text-white hover:text-yellow-400 transition-all duration-300 group" title="Go to Homepage">
+                        <div class="bg-gray-700 group-hover:bg-green-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-home text-lg"></i>
+                        </div>
+                    </a>
+
+                    <!-- Wishlist -->
+                    <a href="/wishlist" class="text-white hover:text-red-400 transition-all duration-300 group relative" title="Wishlist">
+                        <div class="bg-gray-700 group-hover:bg-red-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-heart text-lg"></i>
+                        </div>
+                    </a>
+
+                    <!-- Shopping Cart -->
+                    <a href="/cart" class="text-white hover:text-yellow-400 transition-all duration-300 group relative" title="Shopping Cart">
+                        <div class="bg-gray-700 group-hover:bg-yellow-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-shopping-bag text-lg"></i>
+                        </div>
+                    </a>
+
+                    <!-- User Menu -->
+                    <div class="relative group">
+                        <button class="flex items-center text-white hover:text-yellow-400 transition-all duration-300">
+                            <div class="bg-green-600 hover:bg-green-500 p-3 rounded-full transition-all duration-300">
+                                <i class="fas fa-user text-lg"></i>
+                            </div>
+                        </button>
+                        
+                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-2">
+                                <a href="/user/profile" class="block px-4 py-2 text-gray-800 hover:bg-yellow-50 transition-colors">
+                                    <i class="fas fa-user-circle mr-2 text-yellow-600"></i>My Profile
+                                </a>
+                                <a href="/users/logout" class="block px-4 py-2 text-red-600 hover:bg-red-50 transition-colors">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="premium-gradient text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl md:text-6xl font-playfair font-bold mb-4">
+                    Size <span class="text-yellow-400">Guide</span>
+                </h1>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    Find the perfect fit for your jewelry with our comprehensive sizing guide
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tabs -->
+    <section class="py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Tab Navigation -->
+            <div class="border-b-2 border-gray-200 mb-12">
+                <div class="flex flex-wrap gap-8">
+                    <button class="tab-btn active" data-tab="rings">
+                        <i class="fas fa-ring mr-2"></i> Ring Sizes
+                    </button>
+                    <button class="tab-btn" data-tab="chains">
+                        <i class="fas fa-chain mr-2"></i> Chain Lengths
+                    </button>
+                    <button class="tab-btn" data-tab="bracelets">
+                        <i class="fas fa-bracelet mr-2"></i> Bracelet Sizes
+                    </button>
+                </div>
+            </div>
+
+            <!-- Ring Sizes Tab -->
+            <div id="rings" class="tab-content">
+                <h2 class="section-title text-3xl font-playfair font-bold mb-8">Ring Sizing</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div class="measurement-diagram">
+                        <h3 class="text-lg font-semibold mb-4 text-yellow-600">How to Measure</h3>
+                        <ol class="space-y-3 text-gray-700">
+                            <li class="flex items-start">
+                                <span class="text-yellow-500 font-bold mr-3">1.</span>
+                                <span>Use a soft measuring tape or string</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-500 font-bold mr-3">2.</span>
+                                <span>Wrap around your finger at the base</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-500 font-bold mr-3">3.</span>
+                                <span>Keep it snug but not tight</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-500 font-bold mr-3">4.</span>
+                                <span>Mark the overlap point and measure with a ruler</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-500 font-bold mr-3">5.</span>
+                                <span>Use the conversion chart below</span>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded">
+                        <h3 class="font-semibold text-lg mb-3 text-yellow-700">Pro Tips</h3>
+                        <ul class="space-y-2 text-gray-700 text-sm">
+                            <li>✓ Measure in the evening when fingers are slightly swollen</li>
+                            <li>✓ Temperature affects finger size - measure in moderate conditions</li>
+                            <li>✓ A good fit allows the ring to slide over your knuckle</li>
+                            <li>✓ The ring should fit snugly without leaving marks</li>
+                            <li>✓ If between sizes, we recommend the larger size</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Ring Size Table -->
+                <div class="overflow-x-auto">
+                    <table class="size-table w-full">
+                        <thead>
+                            <tr>
+                                <th>Circumference (mm)</th>
+                                <th>Size (USA)</th>
+                                <th>Size (UK)</th>
+                                <th>Size (Europe)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>41.2</td><td>3</td><td>F 1/2</td><td>43</td>
+                            </tr>
+                            <tr>
+                                <td>43.7</td><td>5</td><td>J 1/2</td><td>49</td>
+                            </tr>
+                            <tr>
+                                <td>46.2</td><td>7</td><td>N 1/2</td><td>54</td>
+                            </tr>
+                            <tr>
+                                <td>48.8</td><td>9</td><td>S 1/2</td><td>59</td>
+                            </tr>
+                            <tr>
+                                <td>51.3</td><td>11</td><td>W 1/2</td><td>64</td>
+                            </tr>
+                            <tr>
+                                <td>53.8</td><td>13</td><td>1/2</td><td>69</td>
+                            </tr>
+                            <tr>
+                                <td>56.3</td><td>15</td><td>5 1/2</td><td>75</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Chain Lengths Tab -->
+            <div id="chains" class="tab-content hidden">
+                <h2 class="section-title text-3xl font-playfair font-bold mb-8">Chain Lengths</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="size-card p-6 rounded-lg">
+                        <h3 class="font-semibold text-lg mb-2">Choker</h3>
+                        <p class="text-yellow-600 text-2xl font-bold mb-2">14" - 16"</p>
+                        <p class="text-gray-600">Sits close to the neck. Perfect for statement pendants.</p>
+                    </div>
+                    
+                    <div class="size-card p-6 rounded-lg">
+                        <h3 class="font-semibold text-lg mb-2">Princess</h3>
+                        <p class="text-yellow-600 text-2xl font-bold mb-2">16" - 18"</p>
+                        <p class="text-gray-600">Most popular length. Sits at the collarbone.</p>
+                    </div>
+                    
+                    <div class="size-card p-6 rounded-lg">
+                        <h3 class="font-semibold text-lg mb-2">Matinee</h3>
+                        <p class="text-yellow-600 text-2xl font-bold mb-2">20" - 24"</p>
+                        <p class="text-gray-600">Classic elegance. Sits mid-chest area.</p>
+                    </div>
+                    
+                    <div class="size-card p-6 rounded-lg">
+                        <h3 class="font-semibold text-lg mb-2">Opera</h3>
+                        <p class="text-yellow-600 text-2xl font-bold mb-2">28" - 32"</p>
+                        <p class="text-gray-600">Dramatic length. Extends below the waist.</p>
+                    </div>
+                    
+                    <div class="size-card p-6 rounded-lg">
+                        <h3 class="font-semibold text-lg mb-2">Rope</h3>
+                        <p class="text-yellow-600 text-2xl font-bold mb-2">36" - 48"</p>
+                        <p class="text-gray-600">Maximum length. Versatile for layering.</p>
+                    </div>
+                    
+                    <div class="size-card p-6 rounded-lg">
+                        <h3 class="font-semibold text-lg mb-2">Custom</h3>
+                        <p class="text-yellow-600 text-2xl font-bold mb-2">Any Length</p>
+                        <p class="text-gray-600">Contact us for custom chain lengths.</p>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-6 rounded">
+                    <h3 class="font-semibold text-lg mb-3 text-blue-700">Measurement Tip</h3>
+                    <p class="text-gray-700">To find your ideal chain length, use a measuring tape or string from the base of your neck to where you'd like the pendant to sit.</p>
+                </div>
+            </div>
+
+            <!-- Bracelet Sizes Tab -->
+            <div id="bracelets" class="tab-content hidden">
+                <h2 class="section-title text-3xl font-playfair font-bold mb-8">Bracelet Sizes</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div class="measurement-diagram">
+                        <h3 class="text-lg font-semibold mb-4 text-yellow-600">How to Measure</h3>
+                        <ol class="space-y-3 text-gray-700">
+                            <li class="flex items-start">
+                                <span class="text-yellow-500 font-bold mr-3">1.</span>
+                                <span>Use a soft measuring tape or string</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-500 font-bold mr-3">2.</span>
+                                <span>Wrap around your wrist at the base</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-500 font-bold mr-3">3.</span>
+                                <span>Keep it snug but not tight</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-500 font-bold mr-3">4.</span>
+                                <span>Add 0.5 to 1 inch for comfort</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-500 font-bold mr-3">5.</span>
+                                <span>Check our size guide below</span>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-purple-50 border-l-4 border-purple-400 p-6 rounded">
+                        <h3 class="font-semibold text-lg mb-3 text-purple-700">Size Categories</h3>
+                        <ul class="space-y-3 text-gray-700">
+                            <li><span class="font-semibold">XS:</span> Under 6.5 inches</li>
+                            <li><span class="font-semibold">S:</span> 6.5 - 7.0 inches</li>
+                            <li><span class="font-semibold">M:</span> 7.0 - 7.5 inches</li>
+                            <li><span class="font-semibold">L:</span> 7.5 - 8.0 inches</li>
+                            <li><span class="font-semibold">XL:</span> Above 8.0 inches</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Bracelet Size Table -->
+                <div class="overflow-x-auto">
+                    <table class="size-table w-full">
+                        <thead>
+                            <tr>
+                                <th>Wrist Circumference</th>
+                                <th>Size</th>
+                                <th>Recommended Length</th>
+                                <th>Fit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Under 6.5"</td><td>XS</td><td>6.5"</td><td>Snug</td>
+                            </tr>
+                            <tr>
+                                <td>6.5" - 7.0"</td><td>S</td><td>7.0"</td><td>Snug</td>
+                            </tr>
+                            <tr>
+                                <td>7.0" - 7.5"</td><td>M</td><td>7.5"</td><td>Regular</td>
+                            </tr>
+                            <tr>
+                                <td>7.5" - 8.0"</td><td>L</td><td>8.0"</td><td>Regular</td>
+                            </tr>
+                            <tr>
+                                <td>Above 8.0"</td><td>XL</td><td>8.5"</td><td>Loose</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- General Sizing Tips -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl font-playfair font-bold mb-12 text-center">General Sizing Tips</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <div class="text-4xl text-yellow-500 mb-4">
+                        <i class="fas fa-thermometer-half"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Temperature Matters</h3>
+                    <p class="text-gray-600">Fingers and wrists swell in warm weather. Measure in moderate conditions for the most accurate fit.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <div class="text-4xl text-yellow-500 mb-4">
+                        <i class="fas fa-watch"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Time of Day</h3>
+                    <p class="text-gray-600">Measure in the evening when hands are slightly swollen from daily activities for a more realistic fit.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <div class="text-4xl text-yellow-500 mb-4">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Easy Exchanges</h3>
+                    <p class="text-gray-600">Not sure? We offer free exchanges within 30 days if the size isn't perfect for you.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="premium-gradient text-white py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-6">
+                        <h3 class="text-3xl font-bold font-playfair">
+                            <span class="text-white">VEL</span><span class="text-yellow-400">OURA</span>
+                        </h3>
+                    </div>
+                    <p class="text-gray-300 mb-6 text-lg leading-relaxed max-w-md">
+                        Your trusted partner for luxury jewelry. We craft memories, one exquisite piece at a time, 
+                        with dedication to quality and timeless elegance.
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-pinterest"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-yellow-400">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="/" class="text-gray-300 hover:text-white transition-colors duration-300">Home</a></li>
+                        <li><a href="/shop?category=chain" class="text-gray-300 hover:text-white transition-colors duration-300">Premium Chains</a></li>
+                        <li><a href="/shop?category=ring" class="text-gray-300 hover:text-white transition-colors duration-300">Elegant Rings</a></li>
+                        <li><a href="/shop?category=bracelet" class="text-gray-300 hover:text-white transition-colors duration-300">Stunning Bracelets</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-yellow-400">Customer Care</h4>
+                    <ul class="space-y-3">
+                        <li><a href="/contact-us" class="text-gray-300 hover:text-white transition-colors duration-300">Contact Us</a></li>
+                        <li><a href="/size-guide" class="text-gray-300 hover:text-white transition-colors duration-300">Size Guide</a></li>
+                        <li><a href="/care-instructions" class="text-gray-300 hover:text-white transition-colors duration-300">Care Instructions</a></li>
+                        <li><a href="/warranty" class="text-gray-300 hover:text-white transition-colors duration-300">Warranty</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 mb-4 md:mb-0">
+                        © 2025 Veloura. All rights reserved. | Crafted with ♥ for jewelry enthusiasts worldwide
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching functionality
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons and hide all tabs
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+                
+                // Add active class to clicked button and show corresponding tab
+                this.classList.add('active');
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
