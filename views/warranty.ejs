@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warranty - Veloura Luxury Jewelry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        
+        .premium-gradient {
+            background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 50%, #1a1a1a 100%);
+        }
+
+        .cream-bg {
+            background: linear-gradient(135deg, #faf7f2 0%, #f5f1ea 50%, #f0ebe3 100%);
+        }
+
+        .warranty-card {
+            background: linear-gradient(135deg, #f8f6f3 0%, #f0ebe3 100%);
+            border-left: 5px solid #d4af37;
+            transition: all 0.3s ease;
+        }
+
+        .warranty-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #d4af37, #ffd700, #b8860b);
+            border-radius: 2px;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            margin-bottom: 40px;
+            padding-left: 50px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 15px;
+            height: 15px;
+            background: linear-gradient(135deg, #d4af37, #ffd700);
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #d4af37;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 15px;
+            width: 3px;
+            height: 25px;
+            background: #d4af37;
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .feature-box {
+            background: linear-gradient(135deg, #f8f6f3 0%, #f0ebe3 100%);
+            border-top: 4px solid #d4af37;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .highlight-badge {
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
+            color: #1e1e1e;
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            border-left: 3px solid #d4af37;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #b8860b 100%);
+            transition: all 0.3s ease;
+            color: #1e1e1e;
+            font-weight: 600;
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+        }
+    </style>
+</head>
+<body class="font-inter bg-white">
+    <!-- Dynamic Navigation Bar -->
+    <nav class="premium-gradient shadow-2xl sticky top-0 z-50 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo - Left Side -->
+                <div class="flex-shrink-0">
+                    <a href="/" class="text-3xl font-bold font-playfair">
+                        <span class="text-white">VEL</span><span class="text-yellow-400">OURA</span>
+                    </a>
+                </div>
+
+                <!-- Right Side Navigation -->
+                <div class="flex items-center space-x-6">
+                    <!-- Home Icon -->
+                    <a href="/" class="text-white hover:text-yellow-400 transition-all duration-300 group" title="Go to Homepage">
+                        <div class="bg-gray-700 group-hover:bg-green-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-home text-lg"></i>
+                        </div>
+                    </a>
+
+                    <!-- Wishlist -->
+                    <a href="/wishlist" class="text-white hover:text-red-400 transition-all duration-300 group relative" title="Wishlist">
+                        <div class="bg-gray-700 group-hover:bg-red-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-heart text-lg"></i>
+                        </div>
+                    </a>
+
+                    <!-- Shopping Cart -->
+                    <a href="/cart" class="text-white hover:text-yellow-400 transition-all duration-300 group relative" title="Shopping Cart">
+                        <div class="bg-gray-700 group-hover:bg-yellow-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-shopping-bag text-lg"></i>
+                        </div>
+                    </a>
+
+                    <!-- User Menu -->
+                    <div class="relative group">
+                        <button class="flex items-center text-white hover:text-yellow-400 transition-all duration-300">
+                            <div class="bg-green-600 hover:bg-green-500 p-3 rounded-full transition-all duration-300">
+                                <i class="fas fa-user text-lg"></i>
+                            </div>
+                        </button>
+                        
+                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-2">
+                                <a href="/user/profile" class="block px-4 py-2 text-gray-800 hover:bg-yellow-50 transition-colors">
+                                    <i class="fas fa-user-circle mr-2 text-yellow-600"></i>My Profile
+                                </a>
+                                <a href="/users/logout" class="block px-4 py-2 text-red-600 hover:bg-red-50 transition-colors">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="premium-gradient text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl md:text-6xl font-playfair font-bold mb-4">
+                    Our <span class="text-yellow-400">Warranty</span> Promise
+                </h1>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    We stand behind the quality and craftsmanship of every piece
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Warranty Overview -->
+    <section class="py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl font-playfair font-bold mb-12 text-center">
+                Comprehensive Warranty Coverage
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <!-- Standard Warranty -->
+                <div class="warranty-card p-8 rounded-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl font-playfair font-bold">Standard</h3>
+                        <span class="highlight-badge">2 Years</span>
+                    </div>
+                    <p class="text-gray-600 mb-6">Perfect for all our jewelry pieces</p>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-3 mt-1"></i>
+                            <span>Manufacturing defects coverage</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-3 mt-1"></i>
+                            <span>Free repairs & maintenance</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-3 mt-1"></i>
+                            <span>Loose stone replacement</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-3 mt-1"></i>
+                            <span>Complimentary cleaning</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Premium Warranty -->
+                <div class="warranty-card p-8 rounded-lg border-b-4 border-yellow-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl font-playfair font-bold">Premium</h3>
+                        <span class="highlight-badge">5 Years</span>
+                    </div>
+                    <p class="text-gray-600 mb-6">Enhanced coverage for valuable pieces</p>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-3 mt-1"></i>
+                            <span>Everything in Standard</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-3 mt-1"></i>
+                            <span>Accidental damage coverage*</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-3 mt-1"></i>
+                            <span>Resizing service</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-3 mt-1"></i>
+                            <span>Professional polishing</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-3 mt-1"></i>
+                            <span>Jewelry inspection</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Lifetime Warranty -->
+                <div class="warranty-card p-8 rounded-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl font-playfair font-bold">Lifetime</h3>
+                        <span class="highlight-badge">Forever</span>
+                    </div>
+                    <p class="text-gray-600 mb-6">Ultimate protection for precious collections</p>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-3 mt-1"></i>
+                            <span>Everything in Premium</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-3 mt-1"></i>
+                            <span>Full loss replacement*</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-3 mt-1"></i>
+                            <span>Stone replacement coverage</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-3 mt-1"></i>
+                            <span>Annual maintenance package</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <p class="text-sm text-gray-600 text-center">*Subject to terms and conditions</p>
+        </div>
+    </section>
+
+    <!-- What's Covered -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl font-playfair font-bold mb-12 text-center">
+                What's Covered
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Covered Issues -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-green-700 flex items-center">
+                        <i class="fas fa-check-circle mr-3"></i> Covered
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="checklist-item">
+                            <i class="fas fa-check text-green-600 mr-3"></i>
+                            <span>Manufacturing defects in materials</span>
+                        </div>
+                        <div class="checklist-item">
+                            <i class="fas fa-check text-green-600 mr-3"></i>
+                            <span>Loose or fallen stones</span>
+                        </div>
+                        <div class="checklist-item">
+                            <i class="fas fa-check text-green-600 mr-3"></i>
+                            <span>Broken clasps or settings</span>
+                        </div>
+                        <div class="checklist-item">
+                            <i class="fas fa-check text-green-600 mr-3"></i>
+                            <span>Faulty workmanship</span>
+                        </div>
+                        <div class="checklist-item">
+                            <i class="fas fa-check text-green-600 mr-3"></i>
+                            <span>Metal fading or discoloration</span>
+                        </div>
+                        <div class="checklist-item">
+                            <i class="fas fa-check text-green-600 mr-3"></i>
+                            <span>Prong failure</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Not Covered -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-red-700 flex items-center">
+                        <i class="fas fa-times-circle mr-3"></i> Not Covered
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="checklist-item border-l-red-500">
+                            <i class="fas fa-times text-red-600 mr-3"></i>
+                            <span>Normal wear and tear</span>
+                        </div>
+                        <div class="checklist-item border-l-red-500">
+                            <i class="fas fa-times text-red-600 mr-3"></i>
+                            <span>Accidental damage (unless Premium/Lifetime)</span>
+                        </div>
+                        <div class="checklist-item border-l-red-500">
+                            <i class="fas fa-times text-red-600 mr-3"></i>
+                            <span>Abuse or misuse</span>
+                        </div>
+                        <div class="checklist-item border-l-red-500">
+                            <i class="fas fa-times text-red-600 mr-3"></i>
+                            <span>Damage from chemicals</span>
+                        </div>
+                        <div class="checklist-item border-l-red-500">
+                            <i class="fas fa-times text-red-600 mr-3"></i>
+                            <span>Cosmetic damage</span>
+                        </div>
+                        <div class="checklist-item border-l-red-500">
+                            <i class="fas fa-times text-red-600 mr-3"></i>
+                            <span>Lost items</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Warranty Process -->
+    <section class="py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl font-playfair font-bold mb-12 text-center">
+                Warranty Claim Process
+            </h2>
+
+            <div class="timeline max-w-3xl mx-auto">
+                <div class="timeline-item">
+                    <h3 class="text-xl font-semibold mb-2">Contact Us</h3>
+                    <p class="text-gray-600">Reach out to our support team via email, phone, or visit our store with your product and warranty card.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h3 class="text-xl font-semibold mb-2">Inspection</h3>
+                    <p class="text-gray-600">Our team will examine your jewelry to assess the issue and determine if it falls under warranty coverage.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h3 class="text-xl font-semibold mb-2">Approval</h3>
+                    <p class="text-gray-600">Once approved, we'll provide an estimate and timeline for repairs or replacement.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h3 class="text-xl font-semibold mb-2">Service</h3>
+                    <p class="text-gray-600">Our skilled craftspeople will repair or replace your jewelry with the utmost care.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h3 class="text-xl font-semibold mb-2">Return</h3>
+                    <p class="text-gray-600">Your jewelry will be returned in pristine condition with a new warranty period.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl font-playfair font-bold mb-12 text-center">
+                Why Choose Our Warranty
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="feature-box p-8 rounded-lg">
+                    <div class="text-4xl text-yellow-600 mb-4">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Lifetime Commitment</h3>
+                    <p class="text-gray-700">We stand behind our jewelry with comprehensive warranties designed to protect your investment for years to come.</p>
+                </div>
+
+                <div class="feature-box p-8 rounded-lg">
+                    <div class="text-4xl text-yellow-600 mb-4">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Expert Repairs</h3>
+                    <p class="text-gray-700">Our skilled craftspeople use the finest materials and techniques to restore your jewelry to its original beauty.</p>
+                </div>
+
+                <div class="feature-box p-8 rounded-lg">
+                    <div class="text-4xl text-yellow-600 mb-4">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Quick Service</h3>
+                    <p class="text-gray-700">Fast turnaround times on warranty claims ensure your cherished pieces are back with you quickly.</p>
+                </div>
+
+                <div class="feature-box p-8 rounded-lg">
+                    <div class="text-4xl text-yellow-600 mb-4">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Complete Protection</h3>
+                    <p class="text-gray-700">Multiple warranty levels let you choose the coverage that best suits your needs and lifestyle.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Important Information -->
+    <section class="py-20 bg-yellow-50 border-t-4 border-yellow-400">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl font-playfair font-bold mb-8 text-center">
+                Important Information
+            </h2>
+
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-lg border-l-4 border-yellow-600">
+                    <h3 class="font-semibold text-lg mb-2">Warranty Card</h3>
+                    <p class="text-gray-700">Your warranty card must be presented for any warranty claims. Keep it in a safe place and register it on our website.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg border-l-4 border-yellow-600">
+                    <h3 class="font-semibold text-lg mb-2">Transfer Policy</h3>
+                    <p class="text-gray-700">Warranty is non-transferable. It remains with the original purchaser only. If gifting, please inform the recipient.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg border-l-4 border-yellow-600">
+                    <h3 class="font-semibold text-lg mb-2">Proof of Purchase</h3>
+                    <p class="text-gray-700">Keep your original receipt and warranty card as proof of purchase. Digital copies are also accepted.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg border-l-4 border-yellow-600">
+                    <h3 class="font-semibold text-lg mb-2">Unauthorized Repairs</h3>
+                    <p class="text-gray-700">Warranty becomes void if the item has been repaired by unauthorized third parties. Always bring items to Veloura for service.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg border-l-4 border-yellow-600">
+                    <h3 class="font-semibold text-lg mb-2">Modification & Resizing</h3>
+                    <p class="text-gray-700">Professional resizing by Veloura is covered under warranty. Extensive modifications may affect coverage.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 premium-gradient text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-playfair font-bold mb-4">Have Questions About Your Warranty?</h2>
+            <p class="text-xl text-gray-300 mb-8">Our customer service team is here to help!</p>
+            <a href="/contact-us" class="btn-gold px-8 py-3 rounded-lg font-playfair text-lg font-semibold inline-block">
+                Contact Support
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="premium-gradient text-white py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-6">
+                        <h3 class="text-3xl font-bold font-playfair">
+                            <span class="text-white">VEL</span><span class="text-yellow-400">OURA</span>
+                        </h3>
+                    </div>
+                    <p class="text-gray-300 mb-6 text-lg leading-relaxed max-w-md">
+                        Your trusted partner for luxury jewelry. We craft memories, one exquisite piece at a time, 
+                        with dedication to quality and timeless elegance.
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-pinterest"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-yellow-400">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="/" class="text-gray-300 hover:text-white transition-colors duration-300">Home</a></li>
+                        <li><a href="/shop?category=chain" class="text-gray-300 hover:text-white transition-colors duration-300">Premium Chains</a></li>
+                        <li><a href="/shop?category=ring" class="text-gray-300 hover:text-white transition-colors duration-300">Elegant Rings</a></li>
+                        <li><a href="/shop?category=bracelet" class="text-gray-300 hover:text-white transition-colors duration-300">Stunning Bracelets</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-yellow-400">Customer Care</h4>
+                    <ul class="space-y-3">
+                        <li><a href="/contact-us" class="text-gray-300 hover:text-white transition-colors duration-300">Contact Us</a></li>
+                        <li><a href="/size-guide" class="text-gray-300 hover:text-white transition-colors duration-300">Size Guide</a></li>
+                        <li><a href="/care-instructions" class="text-gray-300 hover:text-white transition-colors duration-300">Care Instructions</a></li>
+                        <li><a href="/warranty" class="text-gray-300 hover:text-white transition-colors duration-300">Warranty</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 mb-4 md:mb-0">
+                        © 2025 Veloura. All rights reserved. | Crafted with ♥ for jewelry enthusiasts worldwide
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

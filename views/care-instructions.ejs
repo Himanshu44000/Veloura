@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Care Instructions - Veloura Luxury Jewelry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        
+        .premium-gradient {
+            background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 50%, #1a1a1a 100%);
+        }
+
+        .cream-bg {
+            background: linear-gradient(135deg, #faf7f2 0%, #f5f1ea 50%, #f0ebe3 100%);
+        }
+
+        .care-card {
+            background: linear-gradient(135deg, #f8f6f3 0%, #f0ebe3 100%);
+            border-top: 4px solid #d4af37;
+            transition: all 0.3s ease;
+        }
+
+        .care-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #d4af37, #ffd700, #b8860b);
+            border-radius: 2px;
+        }
+
+        .do-list {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+
+        .dont-list {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid #d97706;
+        }
+
+        .accordion-btn {
+            background: linear-gradient(135deg, #f8f6f3 0%, #f0ebe3 100%);
+            border-bottom: 2px solid #e8ddd4;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-btn:hover {
+            background: #e8ddd4;
+        }
+
+        .accordion-btn.active {
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #b8860b 100%);
+            color: white;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .accordion-content.show {
+            max-height: 500px;
+        }
+    </style>
+</head>
+<body class="font-inter bg-white">
+    <!-- Dynamic Navigation Bar -->
+    <nav class="premium-gradient shadow-2xl sticky top-0 z-50 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo - Left Side -->
+                <div class="flex-shrink-0">
+                    <a href="/" class="text-3xl font-bold font-playfair">
+                        <span class="text-white">VEL</span><span class="text-yellow-400">OURA</span>
+                    </a>
+                </div>
+
+                <!-- Right Side Navigation -->
+                <div class="flex items-center space-x-6">
+                    <!-- Home Icon -->
+                    <a href="/" class="text-white hover:text-yellow-400 transition-all duration-300 group" title="Go to Homepage">
+                        <div class="bg-gray-700 group-hover:bg-green-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-home text-lg"></i>
+                        </div>
+                    </a>
+
+                    <!-- Wishlist -->
+                    <a href="/wishlist" class="text-white hover:text-red-400 transition-all duration-300 group relative" title="Wishlist">
+                        <div class="bg-gray-700 group-hover:bg-red-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-heart text-lg"></i>
+                        </div>
+                    </a>
+
+                    <!-- Shopping Cart -->
+                    <a href="/cart" class="text-white hover:text-yellow-400 transition-all duration-300 group relative" title="Shopping Cart">
+                        <div class="bg-gray-700 group-hover:bg-yellow-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-shopping-bag text-lg"></i>
+                        </div>
+                    </a>
+
+                    <!-- User Menu -->
+                    <div class="relative group">
+                        <button class="flex items-center text-white hover:text-yellow-400 transition-all duration-300">
+                            <div class="bg-green-600 hover:bg-green-500 p-3 rounded-full transition-all duration-300">
+                                <i class="fas fa-user text-lg"></i>
+                            </div>
+                        </button>
+                        
+                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-2">
+                                <a href="/user/profile" class="block px-4 py-2 text-gray-800 hover:bg-yellow-50 transition-colors">
+                                    <i class="fas fa-user-circle mr-2 text-yellow-600"></i>My Profile
+                                </a>
+                                <a href="/users/logout" class="block px-4 py-2 text-red-600 hover:bg-red-50 transition-colors">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="premium-gradient text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl md:text-6xl font-playfair font-bold mb-4">
+                    Care <span class="text-yellow-400">Instructions</span>
+                </h1>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    Keep your precious jewelry looking pristine for a lifetime
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Care Guidelines -->
+    <section class="py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Quick Care Tips -->
+            <div class="mb-16">
+                <h2 class="section-title text-3xl font-playfair font-bold mb-8">Daily Care Tips</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="do-list p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold mb-4 flex items-center">
+                            <i class="fas fa-check-circle text-green-600 mr-3"></i> DO
+                        </h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-600 mr-3 mt-1"></i>
+                                <span>Remove jewelry before showering or swimming</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-600 mr-3 mt-1"></i>
+                                <span>Take off jewelry before exercising or sports</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-600 mr-3 mt-1"></i>
+                                <span>Store in a cool, dry place away from sunlight</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-600 mr-3 mt-1"></i>
+                                <span>Clean gently with a soft, dry cloth regularly</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-600 mr-3 mt-1"></i>
+                                <span>Use protective pouches when traveling</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-600 mr-3 mt-1"></i>
+                                <span>Apply makeup and perfume before wearing jewelry</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="dont-list p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold mb-4 flex items-center">
+                            <i class="fas fa-times-circle text-red-600 mr-3"></i> DON'T
+                        </h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-times text-red-600 mr-3 mt-1"></i>
+                                <span>Expose jewelry to harsh chemicals</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times text-red-600 mr-3 mt-1"></i>
+                                <span>Wear while cleaning or gardening</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times text-red-600 mr-3 mt-1"></i>
+                                <span>Use ultrasonic cleaners without guidance</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times text-red-600 mr-3 mt-1"></i>
+                                <span>Expose to extreme temperature changes</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times text-red-600 mr-3 mt-1"></i>
+                                <span>Store with other jewelry without protection</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times text-red-600 mr-3 mt-1"></i>
+                                <span>Wear while sleeping or lounging</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Material-Specific Care -->
+            <div class="mb-16">
+                <h2 class="section-title text-3xl font-playfair font-bold mb-8">Material-Specific Care</h2>
+                
+                <div class="space-y-4">
+                    <!-- Gold -->
+                    <div>
+                        <button class="accordion-btn w-full px-6 py-4 text-left font-semibold flex justify-between items-center rounded-lg" onclick="toggleAccordion(this)">
+                            <span class="flex items-center">
+                                <i class="fas fa-crown text-yellow-600 mr-3"></i> Gold Jewelry
+                            </span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="accordion-content px-6 py-4 bg-gray-50 text-gray-700">
+                            <p class="mb-3">Gold jewelry is durable but requires gentle care to maintain its luster:</p>
+                            <ul class="space-y-2 ml-4">
+                                <li>• Gently clean with a soft, damp cloth and mild soap</li>
+                                <li>• Use a gold-specific cleaning solution for stubborn dirt</li>
+                                <li>• Avoid wearing while using harsh chemicals or cleaning products</li>
+                                <li>• Store away from direct sunlight to prevent discoloration</li>
+                                <li>• For professional cleaning, visit us annually</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Silver -->
+                    <div>
+                        <button class="accordion-btn w-full px-6 py-4 text-left font-semibold flex justify-between items-center rounded-lg" onclick="toggleAccordion(this)">
+                            <span class="flex items-center">
+                                <i class="fas fa-ring text-gray-400 mr-3"></i> Silver Jewelry
+                            </span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="accordion-content px-6 py-4 bg-gray-50 text-gray-700">
+                            <p class="mb-3">Silver requires regular maintenance to prevent tarnishing:</p>
+                            <ul class="space-y-2 ml-4">
+                                <li>• Store in airtight containers or anti-tarnish bags</li>
+                                <li>• Clean regularly with a silver polishing cloth</li>
+                                <li>• Use silver dip solution for deep cleaning (follow instructions carefully)</li>
+                                <li>• Avoid exposure to moisture and humidity</li>
+                                <li>• Keep away from sulfur, chlorine, and other reactive chemicals</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Gemstones -->
+                    <div>
+                        <button class="accordion-btn w-full px-6 py-4 text-left font-semibold flex justify-between items-center rounded-lg" onclick="toggleAccordion(this)">
+                            <span class="flex items-center">
+                                <i class="fas fa-gem text-pink-500 mr-3"></i> Gemstones
+                            </span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="accordion-content px-6 py-4 bg-gray-50 text-gray-700">
+                            <p class="mb-3">Different gemstones have unique care requirements:</p>
+                            <ul class="space-y-2 ml-4">
+                                <li>• Diamonds: Clean with warm soapy water and soft brush</li>
+                                <li>• Rubies & Sapphires: Use lukewarm water with mild soap</li>
+                                <li>• Emeralds: Avoid water; gently dust with soft cloth</li>
+                                <li>• Pearls: Wear as the last thing you put on; never immerse in water</li>
+                                <li>• Avoid ultrasonic cleaners for soft or treated stones</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Delicate Pieces -->
+                    <div>
+                        <button class="accordion-btn w-full px-6 py-4 text-left font-semibold flex justify-between items-center rounded-lg" onclick="toggleAccordion(this)">
+                            <span class="flex items-center">
+                                <i class="fas fa-leaf text-green-600 mr-3"></i> Delicate Pieces
+                            </span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="accordion-content px-6 py-4 bg-gray-50 text-gray-700">
+                            <p class="mb-3">Special care for fragile or intricate jewelry:</p>
+                            <ul class="space-y-2 ml-4">
+                                <li>• Handle with extreme care to avoid bending or breaking</li>
+                                <li>• Store separately to prevent tangling or scratching</li>
+                                <li>• Dust gently with a soft brush rather than wiping</li>
+                                <li>• Have professional repairs done promptly if damage occurs</li>
+                                <li>• Consider professional storage boxes for valuable pieces</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Storage Guide -->
+            <div class="mb-16">
+                <h2 class="section-title text-3xl font-playfair font-bold mb-8">Storage Guide</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="care-card p-8 rounded-lg">
+                        <h3 class="text-xl font-semibold mb-4 flex items-center">
+                            <i class="fas fa-boxes text-yellow-600 mr-3"></i> Ideal Storage
+                        </h3>
+                        <ul class="space-y-3 text-gray-700">
+                            <li>✓ Use a jewelry box with soft lining</li>
+                            <li>✓ Store in a cool, dry place</li>
+                            <li>✓ Use individual compartments to prevent tangling</li>
+                            <li>✓ Keep away from sunlight and heat</li>
+                            <li>✓ Use anti-tarnish packets for silver</li>
+                            <li>✓ Maintain consistent temperature</li>
+                        </ul>
+                    </div>
+
+                    <div class="care-card p-8 rounded-lg">
+                        <h3 class="text-xl font-semibold mb-4 flex items-center">
+                            <i class="fas fa-ban text-red-600 mr-3"></i> Avoid These
+                        </h3>
+                        <ul class="space-y-3 text-gray-700">
+                            <li>✗ Direct sunlight exposure</li>
+                            <li>✗ Damp or humid environments</li>
+                            <li>✗ Storing near radiators or AC vents</li>
+                            <li>✗ Loose storage without protection</li>
+                            <li>✗ Extreme temperature changes</li>
+                            <li>✗ Storing with acidic materials</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cleaning Methods -->
+            <div class="mb-16">
+                <h2 class="section-title text-3xl font-playfair font-bold mb-8">Professional Cleaning Methods</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="care-card p-6 rounded-lg text-center">
+                        <div class="text-4xl text-yellow-600 mb-3">
+                            <i class="fas fa-water"></i>
+                        </div>
+                        <h4 class="font-semibold text-lg mb-2">Gentle Wash</h4>
+                        <p class="text-sm text-gray-600">Warm water with mild dish soap and soft brush for everyday cleaning</p>
+                    </div>
+
+                    <div class="care-card p-6 rounded-lg text-center">
+                        <div class="text-4xl text-yellow-600 mb-3">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                        <h4 class="font-semibold text-lg mb-2">Steam Cleaning</h4>
+                        <p class="text-sm text-gray-600">Professional steam cleaning for deep cleaning of metals and gemstones</p>
+                    </div>
+
+                    <div class="care-card p-6 rounded-lg text-center">
+                        <div class="text-4xl text-yellow-600 mb-3">
+                            <i class="fas fa-hands"></i>
+                        </div>
+                        <h4 class="font-semibold text-lg mb-2">Professional Service</h4>
+                        <p class="text-sm text-gray-600">Annual professional inspection and cleaning service recommended</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Important Tips -->
+            <div class="tip-box p-8 rounded-lg mb-8">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <i class="fas fa-lightbulb mr-3"></i> Important Tips
+                </h3>
+                <ul class="space-y-3 text-gray-800">
+                    <li>• Professional inspection recommended annually to check for loose stones or worn settings</li>
+                    <li>• Never attempt DIY repairs on precious jewelry - visit a professional jeweler</li>
+                    <li>• Consider jewelry insurance for valuable pieces</li>
+                    <li>• When traveling, keep jewelry in your carry-on bag, not checked luggage</li>
+                    <li>• Document your collection with photos and descriptions for insurance purposes</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="premium-gradient text-white py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-6">
+                        <h3 class="text-3xl font-bold font-playfair">
+                            <span class="text-white">VEL</span><span class="text-yellow-400">OURA</span>
+                        </h3>
+                    </div>
+                    <p class="text-gray-300 mb-6 text-lg leading-relaxed max-w-md">
+                        Your trusted partner for luxury jewelry. We craft memories, one exquisite piece at a time, 
+                        with dedication to quality and timeless elegance.
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-pinterest"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-yellow-400">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="/" class="text-gray-300 hover:text-white transition-colors duration-300">Home</a></li>
+                        <li><a href="/shop?category=chain" class="text-gray-300 hover:text-white transition-colors duration-300">Premium Chains</a></li>
+                        <li><a href="/shop?category=ring" class="text-gray-300 hover:text-white transition-colors duration-300">Elegant Rings</a></li>
+                        <li><a href="/shop?category=bracelet" class="text-gray-300 hover:text-white transition-colors duration-300">Stunning Bracelets</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-yellow-400">Customer Care</h4>
+                    <ul class="space-y-3">
+                        <li><a href="/contact-us" class="text-gray-300 hover:text-white transition-colors duration-300">Contact Us</a></li>
+                        <li><a href="/size-guide" class="text-gray-300 hover:text-white transition-colors duration-300">Size Guide</a></li>
+                        <li><a href="/care-instructions" class="text-gray-300 hover:text-white transition-colors duration-300">Care Instructions</a></li>
+                        <li><a href="/warranty" class="text-gray-300 hover:text-white transition-colors duration-300">Warranty</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 mb-4 md:mb-0">
+                        © 2025 Veloura. All rights reserved. | Crafted with ♥ for jewelry enthusiasts worldwide
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleAccordion(btn) {
+            const content = btn.nextElementSibling;
+            const isOpen = content.classList.contains('show');
+            
+            // Close all accordions
+            document.querySelectorAll('.accordion-content').forEach(item => {
+                item.classList.remove('show');
+            });
+            document.querySelectorAll('.accordion-btn').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Open clicked accordion
+            if (!isOpen) {
+                content.classList.add('show');
+                btn.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

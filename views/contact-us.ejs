@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Veloura Luxury Jewelry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- EmailJS Library (global emailjs) -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        
+        .premium-gradient {
+            background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 50%, #1a1a1a 100%);
+        }
+        
+        .gold-gradient {
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #b8860b 100%);
+        }
+
+        .cream-bg {
+            background: linear-gradient(135deg, #faf7f2 0%, #f5f1ea 50%, #f0ebe3 100%);
+        }
+
+        .input-field {
+            background-color: #f8f6f3;
+            border: 2px solid #e8ddd4;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #b8860b 100%);
+            transition: all 0.3s ease;
+            color: #1e1e1e;
+            font-weight: 600;
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .contact-card {
+            background: linear-gradient(135deg, #f8f6f3 0%, #f0ebe3 100%);
+            border-left: 4px solid #d4af37;
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #d4af37, #ffd700, #b8860b);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="font-inter bg-white">
+    <!-- Dynamic Navigation Bar -->
+    <nav class="premium-gradient shadow-2xl sticky top-0 z-50 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo - Left Side -->
+                <div class="flex-shrink-0">
+                    <a href="/" class="text-3xl font-bold font-playfair">
+                        <span class="text-white">VEL</span><span class="text-yellow-400">OURA</span>
+                    </a>
+                </div>
+
+                <!-- Right Side Navigation -->
+                <div class="flex items-center space-x-6">
+                    <!-- Home Icon -->
+                    <a href="/" class="text-white hover:text-yellow-400 transition-all duration-300 group" title="Go to Homepage">
+                        <div class="bg-gray-700 group-hover:bg-green-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-home text-lg"></i>
+                        </div>
+                    </a>
+
+                    <!-- Wishlist -->
+                    <a href="/wishlist" class="text-white hover:text-red-400 transition-all duration-300 group relative" title="Wishlist">
+                        <div class="bg-gray-700 group-hover:bg-red-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-heart text-lg"></i>
+                        </div>
+                    </a>
+
+                    <!-- Shopping Cart -->
+                    <a href="/cart" class="text-white hover:text-yellow-400 transition-all duration-300 group relative" title="Shopping Cart">
+                        <div class="bg-gray-700 group-hover:bg-yellow-500 p-3 rounded-full transition-all duration-300">
+                            <i class="fas fa-shopping-bag text-lg"></i>
+                        </div>
+                    </a>
+
+                    <!-- User Menu -->
+                    <div class="relative group">
+                        <button class="flex items-center text-white hover:text-yellow-400 transition-all duration-300">
+                            <div class="bg-green-600 hover:bg-green-500 p-3 rounded-full transition-all duration-300">
+                                <i class="fas fa-user text-lg"></i>
+                            </div>
+                        </button>
+                        
+                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-2">
+                                <a href="/user/profile" class="block px-4 py-2 text-gray-800 hover:bg-yellow-50 transition-colors">
+                                    <i class="fas fa-user-circle mr-2 text-yellow-600"></i>My Profile
+                                </a>
+                                <a href="/users/logout" class="block px-4 py-2 text-red-600 hover:bg-red-50 transition-colors">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="premium-gradient text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl md:text-6xl font-playfair font-bold mb-4">
+                    Get In <span class="text-yellow-400">Touch</span>
+                </h1>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    We'd love to hear from you. Our team is here to help with any questions about our jewelry collection or services.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <!-- Phone -->
+                <div class="contact-card p-8 rounded-lg text-center">
+                    <div class="text-4xl text-yellow-500 mb-4">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold font-playfair mb-2">Call Us</h3>
+                    <p class="text-gray-600 mb-3">Speak with our specialists</p>
+                    <a href="tel:+919876543210" class="text-yellow-600 font-semibold hover:text-yellow-700">+91 98765 43210</a>
+                    <p class="text-sm text-gray-500 mt-3">Mon - Sat, 10:00 AM - 6:00 PM</p>
+                </div>
+
+                <!-- Email -->
+                <div class="contact-card p-8 rounded-lg text-center">
+                    <div class="text-4xl text-yellow-500 mb-4">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold font-playfair mb-2">Email Us</h3>
+                    <p class="text-gray-600 mb-3">We'll respond within 24 hours</p>
+                    <a href="mailto:support@veloura.com" class="text-yellow-600 font-semibold hover:text-yellow-700">support@veloura.com</a>
+                    <p class="text-sm text-gray-500 mt-3">General Inquiries & Support</p>
+                </div>
+
+                <!-- Visit -->
+                <div class="contact-card p-8 rounded-lg text-center">
+                    <div class="text-4xl text-yellow-500 mb-4">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold font-playfair mb-2">Visit Us</h3>
+                    <p class="text-gray-600 mb-3">Experience our collection</p>
+                    <p class="text-gray-700 font-semibold">Veloura Flagship Store<br>123 Luxury Lane, Mumbai</p>
+                    <p class="text-sm text-gray-500 mt-3">10:00 AM - 6:00 PM Daily</p>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="max-w-2xl mx-auto">
+                <h2 class="section-title text-3xl md:text-4xl font-playfair font-bold mb-12 text-center">
+                    Send Us a Message
+                </h2>
+                <form class="space-y-6" id="contactForm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Full Name</label>
+                            <input type="text" name="name" required class="w-full px-4 py-3 input-field rounded-lg focus:outline-none" placeholder="Your Name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+                            <input type="email" name="email" required class="w-full px-4 py-3 input-field rounded-lg focus:outline-none" placeholder="your@email.com">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Phone</label>
+                            <input type="tel" name="phone" class="w-full px-4 py-3 input-field rounded-lg focus:outline-none" placeholder="Your Phone">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Subject</label>
+                            <select name="subject" required class="w-full px-4 py-3 input-field rounded-lg focus:outline-none">
+                                <option value="">Select a subject</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="order">Order Status</option>
+                                <option value="return">Returns & Exchanges</option>
+                                <option value="custom">Custom Orders</option>
+                                <option value="warranty">Warranty Issues</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Message</label>
+                        <textarea name="message" rows="6" required class="w-full px-4 py-3 input-field rounded-lg focus:outline-none resize-none" placeholder="Tell us more about your inquiry..."></textarea>
+                    </div>
+
+                    <div class="flex items-center">
+                        <input type="checkbox" name="subscribe" id="subscribe" class="w-4 h-4" checked>
+                        <label for="subscribe" class="ml-3 text-sm text-gray-600">Subscribe to our newsletter for exclusive offers</label>
+                    </div>
+
+                    <button type="submit" class="w-full btn-gold py-3 rounded-lg font-playfair text-lg font-semibold" id="submitBtn">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notification -->
+    <div id="notification" class="fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 transition-all duration-300 opacity-0 invisible"
+        style="min-width: 300px;"></div>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-3xl md:text-4xl font-playfair font-bold mb-12 text-center">
+                Frequently Asked Questions
+            </h2>
+
+            <div class="space-y-4">
+                <details class="group border-b-2 border-gray-200 pb-4">
+                    <summary class="cursor-pointer flex justify-between items-center font-semibold text-gray-800">
+                        What is your return policy?
+                        <span class="text-yellow-500 group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <p class="mt-3 text-gray-600">We offer a 30-day return policy on all items in original condition. Items must be unworn and have original packaging.</p>
+                </details>
+
+                <details class="group border-b-2 border-gray-200 pb-4">
+                    <summary class="cursor-pointer flex justify-between items-center font-semibold text-gray-800">
+                        How do I track my order?
+                        <span class="text-yellow-500 group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <p class="mt-3 text-gray-600">Once your order ships, you'll receive an email with a tracking number. You can use this to monitor your delivery in real-time.</p>
+                </details>
+
+                <details class="group border-b-2 border-gray-200 pb-4">
+                    <summary class="cursor-pointer flex justify-between items-center font-semibold text-gray-800">
+                        Do you offer custom jewelry?
+                        <span class="text-yellow-500 group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <p class="mt-3 text-gray-600">Yes! We specialize in custom jewelry design. Contact our team to discuss your unique vision and bring it to life.</p>
+                </details>
+
+                <details class="group border-b-2 border-gray-200 pb-4">
+                    <summary class="cursor-pointer flex justify-between items-center font-semibold text-gray-800">
+                        What payment methods do you accept?
+                        <span class="text-yellow-500 group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <p class="mt-3 text-gray-600">We accept all major credit cards, debit cards, digital wallets, and multiple payment gateways for your convenience.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="premium-gradient text-white py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-6">
+                        <h3 class="text-3xl font-bold font-playfair">
+                            <span class="text-white">VEL</span><span class="text-yellow-400">OURA</span>
+                        </h3>
+                    </div>
+                    <p class="text-gray-300 mb-6 text-lg leading-relaxed max-w-md">
+                        Your trusted partner for luxury jewelry. We craft memories, one exquisite piece at a time, 
+                        with dedication to quality and timeless elegance.
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors duration-300 text-2xl">
+                            <i class="fab fa-pinterest"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-yellow-400">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="/" class="text-gray-300 hover:text-white transition-colors duration-300">Home</a></li>
+                        <li><a href="/shop?category=chain" class="text-gray-300 hover:text-white transition-colors duration-300">Premium Chains</a></li>
+                        <li><a href="/shop?category=ring" class="text-gray-300 hover:text-white transition-colors duration-300">Elegant Rings</a></li>
+                        <li><a href="/shop?category=bracelet" class="text-gray-300 hover:text-white transition-colors duration-300">Stunning Bracelets</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-yellow-400">Customer Care</h4>
+                    <ul class="space-y-3">
+                        <li><a href="/contact-us" class="text-gray-300 hover:text-white transition-colors duration-300">Contact Us</a></li>
+                        <li><a href="/size-guide" class="text-gray-300 hover:text-white transition-colors duration-300">Size Guide</a></li>
+                        <li><a href="/care-instructions" class="text-gray-300 hover:text-white transition-colors duration-300">Care Instructions</a></li>
+                        <li><a href="/warranty" class="text-gray-300 hover:text-white transition-colors duration-300">Warranty</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 mb-4 md:mb-0">
+                        © 2025 Veloura. All rights reserved. | Crafted with ♥ for jewelry enthusiasts worldwide
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // EmailJS config
+        const SERVICE_ID = 'service_qz1igca';        // Your EmailJS Service ID
+        const TEMPLATE_ID = 'template_ey5vf5w';      // Your EmailJS Template ID
+        const PUBLIC_KEY = 'iqY_NUfeZYmEww0W4';      // Your EmailJS Public Key
+
+        // Fallback loader if the CDN failed
+        async function ensureEmailJS() {
+            if (window.emailjs) return window.emailjs;
+
+            const primary = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
+            const fallback = 'https://unpkg.com/@emailjs/browser@3/dist/email.min.js';
+
+            const loadScript = (src) => new Promise((resolve, reject) => {
+                const s = document.createElement('script');
+                s.src = src;
+                s.onload = () => resolve(window.emailjs);
+                s.onerror = reject;
+                document.head.appendChild(s);
+            });
+
+            try {
+                return await loadScript(primary);
+            } catch (e) {
+                console.warn('Primary EmailJS CDN failed, trying fallback...', e);
+                return await loadScript(fallback);
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            // Get form values
+            const templateParams = {
+                from_name: document.querySelector('input[name="name"]').value,
+                from_email: document.querySelector('input[name="email"]').value,
+                phone: document.querySelector('input[name="phone"]').value,
+                subject: document.querySelector('select[name="subject"]').value,
+                message: document.querySelector('textarea[name="message"]').value,
+                subscribe: document.querySelector('input[name="subscribe"]').checked ? 'Yes' : 'No'
+            };
+
+            // Debug log for troubleshooting
+            console.log('Sending email with params:', templateParams);
+
+            try {
+                const ej = await ensureEmailJS();
+                if (!ej) throw new Error('EmailJS failed to load. Check CDN/network.');
+
+                if (PUBLIC_KEY) {
+                    ej.init(PUBLIC_KEY);
+                }
+
+                const response = await ej.send(SERVICE_ID, TEMPLATE_ID, templateParams);
+                console.log('Email sent successfully!', response);
+                showNotification('Message sent successfully! We\'ll get back to you soon.', 'success');
+                document.getElementById('contactForm').reset();
+            } catch (error) {
+                console.error('Failed to send email:', error);
+                const message = error?.text || error?.message || 'Failed to send message. Please try again or contact us directly.';
+                showNotification(message, 'error');
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            
+            // Set background color based on type
+            if (type === 'success') {
+                notification.className = 'fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 bg-green-500 text-white opacity-100 visible transition-all duration-300';
+            } else if (type === 'error') {
+                notification.className = 'fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 bg-red-500 text-white opacity-100 visible transition-all duration-300';
+            } else {
+                notification.className = 'fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 bg-blue-500 text-white opacity-100 visible transition-all duration-300';
+            }
+
+            // Hide notification after 4 seconds
+            setTimeout(() => {
+                notification.className = 'fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 transition-all duration-300 opacity-0 invisible';
+            }, 4000);
+        }
+    </script>
+</body>
+
+</html>

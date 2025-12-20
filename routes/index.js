@@ -481,6 +481,64 @@ router.get("/addtowishlist/:productid", isloggedin, async function (req, res) {
     }
 });
 
+// Contact Us Page
+router.get("/contact-us", (req, res) => {
+    let loggedin = false;
+    if (req.cookies.token) {
+        try {
+            const jwt = require("jsonwebtoken");
+            const decoded = jwt.verify(req.cookies.token, process.env.JWT_KEY);
+            loggedin = true;
+        } catch (err) {
+            loggedin = false;
+        }
+    }
+    res.render("contact-us", { loggedin });
+});
 
+// Size Guide Page
+router.get("/size-guide", (req, res) => {
+    let loggedin = false;
+    if (req.cookies.token) {
+        try {
+            const jwt = require("jsonwebtoken");
+            const decoded = jwt.verify(req.cookies.token, process.env.JWT_KEY);
+            loggedin = true;
+        } catch (err) {
+            loggedin = false;
+        }
+    }
+    res.render("size-guide", { loggedin });
+});
+
+// Care Instructions Page
+router.get("/care-instructions", (req, res) => {
+    let loggedin = false;
+    if (req.cookies.token) {
+        try {
+            const jwt = require("jsonwebtoken");
+            const decoded = jwt.verify(req.cookies.token, process.env.JWT_KEY);
+            loggedin = true;
+        } catch (err) {
+            loggedin = false;
+        }
+    }
+    res.render("care-instructions", { loggedin });
+});
+
+// Warranty Page
+router.get("/warranty", (req, res) => {
+    let loggedin = false;
+    if (req.cookies.token) {
+        try {
+            const jwt = require("jsonwebtoken");
+            const decoded = jwt.verify(req.cookies.token, process.env.JWT_KEY);
+            loggedin = true;
+        } catch (err) {
+            loggedin = false;
+        }
+    }
+    res.render("warranty", { loggedin });
+});
 
 module.exports = router;
